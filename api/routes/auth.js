@@ -22,8 +22,11 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 	try {
 		const user = await User.findOne({ walletAddress: req.body.walletAddress });
-		!user && res.status(404).json("user not found");
-
+		if (!user)
+		{
+			res.status(404).json("user not found");
+			return ;
+		}
 		res.status(200).json(user);
 	} catch (err) {
 		res.status(500).json(err);

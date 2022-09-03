@@ -6,8 +6,8 @@ const PostSchema = new mogoose.Schema(
 			type: String,
 			required: true,
 			unique: true,
-			min: 40,
-			max: 40,
+			min: 42,
+			max: 42,
 		},
 		title: {
 			type: String,
