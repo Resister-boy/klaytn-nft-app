@@ -1,40 +1,47 @@
 const mongoose = require("mongoose");
 
-const PostSchema = new mogoose.Schema(
+const UserSchema = new mongoose.Schema(
 	{
 		walletAddress: {
 			type: String,
 			required: true,
-			unique: true,
+			uniuqe: true,
 			min: 42,
 			max: 42,
 		},
-		title: {
+		username: {
 			type: String,
 			required: true,
 			min: 3,
-			max: 40,
+			max: 20,
+			unique: true,
 		},
-		content: {
-			type: String,
-			min: 10,
-			max: 100,
-			default: "",
-		},
-		date: {
-			type: Date,
-			default: Date.now,
-		},
-		image: {
+		profilePicture: {
 			type: String,
 			default: "",
 		},
-		isNFT: {
+		coverPicture: {
+			type: String,
+			default: "",
+		},
+		followers: {
+			type: Array,
+			default: [],
+		},
+		followings: {
+			type: Array,
+			default: [],
+		},
+		isAdmin: {
 			type: Boolean,
 			default: false,
+		},
+		desc: {
+			type: String,
+			max: 50,
 		},
 	},
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("User", UserSchema);
