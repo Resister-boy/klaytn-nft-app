@@ -42,22 +42,6 @@ router.delete("/:id", async (req, res) => {
 	}
 });
 
-//minting a post
-router.put("/:id/minting", async (req, res) => {
-	try {
-		const post = await Post.findById(req.params.id);
-		if (!post.isNFT) {
-			await post.updateOne({ $set: { isNFT: true } });
-			res.status(200).json("The post has been liked");
-		} else {
-			await post.updateOne({ $pull: { likes: req.body.userId } });
-			res.status(200).json("The post has been disliked");
-		}
-	} catch (err) {
-		res.status(500).json(err);
-	}
-});
-
 //get a post
 router.get("/:id", async (req, res) => {
 	try {
