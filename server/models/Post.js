@@ -1,0 +1,33 @@
+const mongoose = require("mongoose");
+
+const PostSchema = new mogoose.Schema(
+	{
+		userId: {
+			type: String,
+			required: true,
+		},
+		title: {
+			type: String,
+			required: true,
+			max: 40,
+		},
+		content: {
+			type: String,
+			max: 500,
+		},
+		date: {
+			type: Date,
+			default: Date.now,
+		},
+		image: {
+			type: String,
+		},
+		isNFT: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	{ timestamps: true }
+);
+
+module.exports = mongoose.model("Post", PostSchema);
