@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 //create a post
 router.post("/", async (req, res) => {
@@ -47,6 +48,17 @@ router.get("/:id", async (req, res) => {
 	try {
 		const post = await Post.findById(req.params.id);
 		res.status(200).json(post);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+//get user posts
+router.get("/user/:userId", async (req, res) => {
+	try {
+		const currentUser = await User.findById(req.params.userId);
+		const userPosts = await Post.find({ userId: currentUser._id });
+		res.status(200).json(userPosts);
 	} catch (err) {
 		res.status(500).json(err);
 	}
