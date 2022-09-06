@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Market from "./pages/market/Market";
 import Home from './pages/home/Home';
 
@@ -15,6 +15,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={ user ? <Home /> : <Navigate to="/market" /> } />
+        <Route path="/home" element={<Home /> } />
         <Route path="/market" element={<Market />} />
       </Routes>
     </BrowserRouter>
