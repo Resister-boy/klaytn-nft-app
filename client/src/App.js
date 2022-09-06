@@ -15,6 +15,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={ user ? <Home /> : <Navigate to="/market" /> } />
+        <Route path="/home" element={<Home /> } />
         <Route path="/market" element={<Market />} />
       </Routes>
     </BrowserRouter>

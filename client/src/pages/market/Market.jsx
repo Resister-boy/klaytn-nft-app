@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './market.css';
 import { Alert, Container, Form, Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import Feed from "../../components/feed/Feed";
 
 const DEFAULT_QR_CODE = "DEFAULT";
 const DEFAULT_ADDRESS = "0x0000000000000000";
@@ -88,12 +89,12 @@ export default function Market() {
 
 	return (
 		<div className="App">
-			<div style={{ backgroundColor: "black", padding: 10 }}>
+			<div style={{ padding: 10 }}>
 				<div style={{ fontSize: 30, fontWeight: "bold", paddingLeft: 5, marginTop: 10, }}>{myName} 지갑</div>
 				<br />
 				<Alert
 					variant={"balance"}
-					style={{ backgroundColor: "#f40075", fontSize: 25 }}
+					style={{ backgroundColor: "#278ef5", fontSize: 25 }}
 					onClick={getUserData}>{myBalance}
 				</Alert>
 				<Modal
@@ -103,14 +104,15 @@ export default function Market() {
 					onHide={() => {
 						setShowModal(false);
 					}}
+					style={{ border: 0 }}
 				>
 					<Modal.Header
-						style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, backgroundColor: "black", opacity: 0.8 }}
+						style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, opacity: 0.8 }}
 					>
 						<Modal.Title>{modalProps.title}</Modal.Title>
 					</Modal.Header>
 					<Modal.Body
-						style={{ border: 0, backgroundColor: "black", opacity: 0.8 }}
+						style={{ border: 0, opacity: 0.8 }}
 					>
 						<Container style={{ backgroundColor: "white", width: 200, height: 200, padding: 10 }} >
 							<QRCode value={qrvalue} size={180} style={{ margin: "auto" }} />
@@ -137,7 +139,7 @@ export default function Market() {
 						}
 					</Modal.Body>
 					<Modal.Footer
-						style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, backgroundColor: "black", opacity: 0.8 }}
+						style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, opacity: 0.8 }}
 					>
 						<Button
 							variant="primary"
@@ -145,13 +147,18 @@ export default function Market() {
 								modalProps.onClick(myAddress, modalInput);
 								setShowModal(false);
 							}}
-							style={{ backgroundColor: "#810034", borderColor: "#810034" }}
+							style={{ backgroundColor: "#278ef5", borderColor: "#278ef5" }}
 						>
 							{ modalProps.buttonName }
 						</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
+			{
+				myName ? <div className="homeContainer">
+					<Feed></Feed>
+				</div> : null
+			}
 		</div>
 	);
 }
