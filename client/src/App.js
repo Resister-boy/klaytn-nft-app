@@ -1,6 +1,8 @@
 import React from 'react';
 import Market from "./pages/market/Market";
 import Home from './pages/home/Home';
+import UserPage from './pages/user/UserPage';
+import { useState } from 'react';
 
 import {
   BrowserRouter,
@@ -10,13 +12,13 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const user = false;
+  const [user, setUser] = useState("");
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={ user ? <Home /> : <Navigate to="/market" /> } />
-        <Route path="/home" element={<Home /> } />
-        <Route path="/market" element={<Market />} />
+        {/* <Route path="/" element={<Market />} /> */}
+        <Route path="/user" element={<UserPage user={user}/> } />
+        <Route path="/market" element={<Market user={user} setUser={setUser}/>} />
       </Routes>
     </BrowserRouter>
   );

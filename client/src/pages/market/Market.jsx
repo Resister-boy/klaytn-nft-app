@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import QRCode from "qrcode.react";
 import * as CaverAPI from "../../api/UseCaver";
 import * as KlipAPI from "../../api/UseKlip";
@@ -11,11 +12,13 @@ import Feed from "../../components/feed/Feed";
 const DEFAULT_QR_CODE = "DEFAULT";
 const DEFAULT_ADDRESS = "0x0000000000000000";
 
-export default function Market() {
+export default function Market(props) {
+	const {user, setUser} = props;
+	const navigate = useNavigate()
 	// User
 	const [myBalance, setMyBalance] = useState("0");
 	const [myAddress, setMyAddress] = useState(DEFAULT_ADDRESS)
-	const [user, setUser] = useState("");
+	// const [user, setUser] = useState("");
 	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
 
 	// Modal
@@ -89,8 +92,12 @@ export default function Market() {
 
 	return (
 		<div className="App">
-			<div style={{ padding: 10 }}>
-				<div style={{ fontSize: 30, fontWeight: "bold", paddingLeft: 5, marginTop: 10, }}>{user.username} 지갑</div>
+			<div style={{ padding: 10 }}>	
+				<div style={{ fontSize: 30, fontWeight: "bold", paddingLeft: 5, marginTop: 10, }}>
+					{user.username} 지갑
+					<br />
+					{user ? <button style={{borderRadius: 10}} onClick={() => {navigate("/user")}}>My Posts</button> : null}
+				</div>
 				<br />
 				<Alert
 					variant={"balance"}
