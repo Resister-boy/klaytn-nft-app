@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Market />} /> */}
+        <Route path="/" element={<Market user={user} setUser={setUser}/>} />
         <Route path="/user" element={<UserPage user={user}/> } />
         <Route path="/market" element={<Market user={user} setUser={setUser}/>} />
       </Routes>

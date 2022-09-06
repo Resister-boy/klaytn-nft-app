@@ -18,7 +18,6 @@ export default function Market(props) {
 	// User
 	const [myBalance, setMyBalance] = useState("0");
 	const [myAddress, setMyAddress] = useState(DEFAULT_ADDRESS)
-	// const [user, setUser] = useState("");
 	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
 
 	// Modal

@@ -10,8 +10,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert, Container, Form, Button, Modal } from "react-bootstrap";
 
 const DEFAULT_QR_CODE = "DEFAULT";
+const DEFAULT_ADDRESS = "0x0000000000000000";
 
-export default function Post({ post, isOwner }) {
+export default function Post(props) {
+  const {post, isOwner, user} = props;
+
+  const walletAddress = user ? user.walletAddress : null;
+
   // Token
 	const [mintTokenID, setMintTokenID] = useState("100");
 
@@ -19,8 +24,8 @@ export default function Post({ post, isOwner }) {
 	const [showModal, setShowModal] = useState(false);
 	const [modalInput, setModalInput] = useState("");
 	const [modalProps, setModalProps] = useState({
-		title: "Modal",
-		buttonName: "close",
+		title: "Minting",
+		buttonName: "mint",
 		onClick: () => { },
 	});
 
@@ -28,19 +33,20 @@ export default function Post({ post, isOwner }) {
 	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
 
 
-  const onClickMint = async (address, uri) => {
-    // if (myAddress === DEFAULT_ADDRESS) {
-    //   alert("NO ADDRESS");
-    //   return;
-    // }
+  const onClickMint = async (uri) => {
+    if (walletAddress === DEFAULT_ADDRESS) {
+      alert("NO ADDRESS");
+      return;
+    }
     // metadata upload
     const metadataURL = await KasAPI.uploadMetaData(uri);
     if (!metadataURL) {
       alert("메타 데이터 업로드에 실패하였습니다.");
       return;
     }
-    KlipAPI.mintCardWithURI(address, mintTokenID, metadataURL, setQrvalue, (result) => {
+    KlipAPI.mintCardWithURI(walletAddress, mintTokenID, metadataURL, setQrvalue, (result) => {
       alert(JSON.stringify(result));
+      setShowModal(false);
     });
   };
 
@@ -69,7 +75,12 @@ export default function Post({ post, isOwner }) {
           {
             isOwner ?
               <div className="postBottomRight">
-                <button className="postButton">minting</button>
+                <button
+                className="postButton"
+                onClick={() => {setShowModal(true)}}
+                >
+                  minting
+                </button>
               </div> : null
           }
         </div>
@@ -101,7 +112,9 @@ export default function Post({ post, isOwner }) {
                 <Form.Control
                   type="address"
                   autoFocus
+                  placeholder={walletAddress}
                   onChange={e => setModalInput(e.target.value)}
+                  disabled
                 />
               </Form.Group>
             </Form>
@@ -112,12 +125,20 @@ export default function Post({ post, isOwner }) {
             <Button
               variant="primary"
               onClick={() => {
-                modalProps.onClick(modalInput);
-                setShowModal(false);
+                onClickMint("/posts/" + post._id);
               }}
               style={{ backgroundColor: "#278ef5", borderColor: "#278ef5" }}
             >
               {modalProps.buttonName}
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setShowModal(false);
+              }}
+              style={{ backgroundColor: "#494d52", borderColor: "#494d52" }}
+            >
+              close
             </Button>
           </Modal.Footer>
         </Modal>

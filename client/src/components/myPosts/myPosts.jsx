@@ -25,7 +25,7 @@ export default function MyPosts(props) {
     <div className="feed">
       <div className="feedWrapper">
         {posts.map((p) => (
-          <Post key={p._id} post={p} isOwner={true} />
+          <Post key={p._id} post={p} isOwner={true} user={user} />
         ))}
       </div>  
     </div>
