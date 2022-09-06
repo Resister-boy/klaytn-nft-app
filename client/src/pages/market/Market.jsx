@@ -15,7 +15,7 @@ export default function Market() {
 	// User
 	const [myBalance, setMyBalance] = useState("0");
 	const [myAddress, setMyAddress] = useState(DEFAULT_ADDRESS)
-	const [myName, setMyName] = useState("");
+	const [user, setUser] = useState("");
 	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
 
 	// Modal
@@ -35,10 +35,10 @@ export default function Market() {
 					return ;
 				}
 			})
-		if (response && response.data && response.data.username)
+		if (response && response.data)
 		{
 			alert(response.data.username);
-			setMyName(response.data.username);
+			setUser(response.data);
 			setShowModal(false);
 		}
 	}
@@ -57,9 +57,9 @@ export default function Market() {
 			setMyAddress(address);
 			const _balance = await CaverAPI.getBalance(address);
 			setMyBalance(_balance);
-			if (response && response.data && response.data.username)
+			if (response && response.data)
 			{
-				setMyName(response.data.username);
+				setUser(response.data);
 				setShowModal(false);
 			}
 			else
@@ -90,7 +90,7 @@ export default function Market() {
 	return (
 		<div className="App">
 			<div style={{ padding: 10 }}>
-				<div style={{ fontSize: 30, fontWeight: "bold", paddingLeft: 5, marginTop: 10, }}>{myName} 지갑</div>
+				<div style={{ fontSize: 30, fontWeight: "bold", paddingLeft: 5, marginTop: 10, }}>{user.username} 지갑</div>
 				<br />
 				<Alert
 					variant={"balance"}
