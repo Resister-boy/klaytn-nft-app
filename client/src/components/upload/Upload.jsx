@@ -1,4 +1,4 @@
-import "./share.css";
+import "./upload.css";
 import {PermMedia, Label,Room, EmojiEmotions} from "@mui/icons-material"
 
 export default function Share() {
@@ -6,9 +6,8 @@ export default function Share() {
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img className="shareProfileImg" src="/assets/person/1.jpeg" alt="" />
           <input
-            placeholder="What's in your mind Safak?"
+            placeholder="What's in your mind?"
             className="shareInput"
           />
         </div>
@@ -32,7 +31,7 @@ export default function Share() {
                     <span className="shareOptionText">Feelings</span>
                 </div>
             </div>
-            <button className="shareButton">Share</button>
+            <button className="shareButton">upload</button>
         </div>
       </div>
     </div>

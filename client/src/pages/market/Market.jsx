@@ -154,11 +154,9 @@ export default function Market() {
 					</Modal.Footer>
 				</Modal>
 			</div>
-			{
-				myName ? <div className="homeContainer">
-					<Feed></Feed>
-				</div> : null
-			}
+			<div className="homeContainer">
+				<Feed />
+			</div>
 		</div>
 	);
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Market from "./pages/market/Market";
 import Home from './pages/home/Home';
 
