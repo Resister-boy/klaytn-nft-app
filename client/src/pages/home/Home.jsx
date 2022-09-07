@@ -1,13 +1,44 @@
-import Feed from "../../components/feed/Feed";
-import "./home.css"
-import MyPosts from "../../components/myPosts/myPosts";
+import React from "react";
+import { useNavigate } from "react-router";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Alert } from "react-bootstrap";
+import axios from "axios";
 
-export default function Home() {
-  return (
-    <>
-      <div className="homeContainer">
-        <MyPosts userId="6316d007f743b03481ac993b"/>
-      </div>
-    </>
-  );
+import './home.css';
+import Feed from "../../components/feed/Feed";
+import LoginModal from "../../components/loginModal/LoginModal";
+
+const DEFAULT_QR_CODE = "DEFAULT";
+const DEFAULT_ADDRESS = "0x0000000000000000";
+
+export default function Home(props) {
+	const {componentProps} = props;
+	const navigate = useNavigate();
+
+	// User
+	const user = componentProps.user;
+	const myBalance = componentProps.myBalance;
+
+	return (
+		<div className="App">
+			<div style={{ padding: 10 }}>	
+				<div style={{ fontSize: 30, fontWeight: "bold", paddingLeft: 5, marginTop: 10, }}>
+					{user.username} 지갑
+					<br />
+					{user ? <button style={{borderRadius: 10}} onClick={() => {navigate("/user")}}>My Posts</button> : null}
+				</div>
+				<br />
+				<Alert
+					variant={"balance"}
+					style={{ backgroundColor: "#278ef5", fontSize: 25 }}
+				>
+					{myBalance}
+				</Alert>
+				<LoginModal componentProps={componentProps}></LoginModal>	
+			</div>
+			<div className="homeContainer">
+				<Feed />
+			</div>
+		</div>
+	);
 }
