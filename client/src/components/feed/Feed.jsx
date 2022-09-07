@@ -17,7 +17,7 @@ export default function Feed() {
       );
     }
     fetchPosts();
-  }, [posts]);
+  }, []);
 
   return (
     <div className="feed">
