@@ -1,21 +1,20 @@
 import React from "react";
 import QRCode from "qrcode.react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './qrModal.css';
 import { Container, Form, Button, Modal } from "react-bootstrap";
 
 export default function QrModal(props) {
-	const {componentProps} = props;
+	const {userProps, modalProps} = props;
 
 	// User
-	const myAddress = componentProps.myAddress;
+	const myAddress = userProps.myAddress;
 
 	// Modal
-	const showModal = componentProps.showModal;
-	const setShowModal = componentProps.setShowModal;
-	const modalProps = componentProps.modalProps;
-	const modalInputRef = componentProps.modalInputRef;
-	const qrvalue = componentProps.qrvalue; 
+	const showModal = modalProps.showModal;
+	const setShowModal = modalProps.setShowModal;
+	const modalPrefference = modalProps.modalPrefference;
+	const modalInputRef = modalProps.modalInputRef;
+	const qrvalue = modalProps.qrvalue;
 
 	return (
 		<Modal
@@ -28,13 +27,13 @@ export default function QrModal(props) {
 			style={{ border: 0 }}
 		>
 			<Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, opacity: 0.8 }}>
-				<Modal.Title>{modalProps.title}</Modal.Title>
+				<Modal.Title>{modalPrefference.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={{ border: 0, opacity: 0.8 }}>
 				<Container style={{ backgroundColor: "white", width: 200, height: 200, padding: 10 }} >
 					<QRCode value={qrvalue} size={180} style={{ margin: "auto" }} />
 				</Container>
-				{modalProps.title === "Register" ?
+				{modalPrefference.title === "Register" ?
 					<Form style={{ padding: 20 }}>
 						<Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
 							<Form.Label>User name</Form.Label>
@@ -54,20 +53,20 @@ export default function QrModal(props) {
 				<Button
 					variant="primary"
 					onClick={() => {
-						switch (modalProps.title) {
+						switch (modalPrefference.title) {
 							case 'Login' :
-								modalProps.onConfirm();
+								modalPrefference.onConfirm();
 								break ;
 							case 'Register' :
-								modalProps.onConfirm(myAddress, modalInputRef.current.value);
+								modalPrefference.onConfirm(myAddress, modalInputRef.current.value);
 								break ;
 							case 'Mint' :
-								modalProps.onConfirm();
+								modalPrefference.onConfirm();
 						}
 					}}
 					style={{ backgroundColor: "#278ef5", borderColor: "#278ef5" }}
 				>
-					{modalProps.buttonName}
+					{modalPrefference.buttonName}
 				</Button>
 				<Button
 					variant="primary"

@@ -6,18 +6,18 @@ import axios from "axios";
 import QrModal from "../qrModal/QrModal";
 
 export default function LoginModal(props) {
-	const {componentProps} = props;
+	const {userProps, modalProps} = props;
 
 	// User
-	const user = componentProps.user;
-	const setUser = componentProps.setUser;
-	const setMyBalance = componentProps.setMyBalance;
-	const setMyAddress = componentProps.setMyAddress;
+	const user = userProps.user;
+	const setUser = userProps.setUser;
+	const setMyBalance = userProps.setMyBalance;
+	const setMyAddress = userProps.setMyAddress;
 
 	// Modal
-	const setShowModal = componentProps.setShowModal;
-	const setModalProps = componentProps.setModalProps;
-	const setQrvalue = componentProps.setQrvalue;
+	const setShowModal = modalProps.setShowModal;
+	const setModalPrefference = modalProps.setModalPrefference;
+	const setQrvalue = modalProps.setQrvalue;
 
 	const registerUser = async (address, username) => {
 		const response = await axios.post("/auth/register", { walletAddress: address, username: username })
@@ -56,7 +56,7 @@ export default function LoginModal(props) {
 			}
 			else
 			{
-				setModalProps({
+				setModalPrefference({
 					title: "Register",
 					buttonName: "sign up",
 					onConfirm: (address, username) => {
@@ -70,7 +70,7 @@ export default function LoginModal(props) {
 	useEffect(() => {
 		if (!user)
 		{
-			setModalProps({
+			setModalPrefference({
 				title: "Login",
 				buttonName: "login",
 				onConfirm: () => {
@@ -82,6 +82,6 @@ export default function LoginModal(props) {
 	}, []);
 
 	return (
-		<QrModal componentProps={componentProps}></QrModal>
+		<QrModal userProps={userProps} modalProps={modalProps}></QrModal>
 	);
 }

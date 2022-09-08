@@ -1,18 +1,40 @@
 import "./userPage.css"
-import MyPosts from "../../components/myPosts/myPosts";
+import Post from "../../components/post/Post";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function UserPage(props) {
-  const {user} = props;
+  // Post
+  const [posts, setPosts] = useState([]);
+  // User
+  const {userProps} = props;
 
-  if (!user)
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await axios.get("/posts/user/" + userProps.user._id);
+      if (response && response.data)
+      {
+        setPosts(
+          response.data.sort((p1, p2) => {
+            return new Date(p2.createdAt) - new Date(p1.createdAt);
+          })
+        );
+      }
+    }
+    fetchPosts();
+  }, []);
+
+  if (!userProps.user)
   {
     return (<div>{alert("NO USER")}</div>);
   }
   return (
-    <>
-      <div className="homeContainer">
-        <MyPosts user={user}/>
-      </div>
-    </>
+    <div className="feed">
+      <div className="feedWrapper">
+        {posts.map((p) => (
+          <Post key={p._id} post={p} isOwner={true} userProps={userProps} />
+        ))}
+      </div>  
+    </div>
   );
 }
