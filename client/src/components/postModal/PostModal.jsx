@@ -35,12 +35,11 @@ export default function PostModal(props) {
 		alert(user.walletAddress, mintTokenID);
 		KlipAPI.mintCardWithURI(user.walletAddress, mintTokenID, metadataURL, setQrvalue, (result) => {
 			alert(JSON.stringify(result));
+			setShowModal(false);
+			// balance update
+			const _balance = CaverAPI.getBalance(user.walletAddress);
+			setMyBalance(_balance);
 		});
-		// balance update
-		const _balance = await CaverAPI.getBalance(user.walletAddress);
-		setMyBalance(_balance);
-		// hide modal
-		await setShowModal(false);
 	};
 
 	useEffect(() => {

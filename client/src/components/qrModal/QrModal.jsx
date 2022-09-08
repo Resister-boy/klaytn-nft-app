@@ -60,7 +60,7 @@ export default function QrModal(props) {
 							case 'Register' :
 								modalPrefference.onConfirm(myAddress, modalInputRef.current.value);
 								break ;
-							case 'Mint' :
+							case 'Minting' :
 								modalPrefference.onConfirm();
 						}
 					}}
