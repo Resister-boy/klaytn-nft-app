@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './pages/home/Home';
 import UserPage from './pages/user/UserPage';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 import {
   BrowserRouter,
@@ -27,7 +27,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home userProps={userProps}/>} />
-        <Route path="/user" element={<UserPage userProps={userProps}/> } />
+        <Route path="/user" element={ user ? <UserPage userProps={userProps}/> : <Navigate to="/" /> } />
       </Routes>
     </BrowserRouter>
   );

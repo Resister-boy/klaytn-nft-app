@@ -31,9 +31,12 @@ export default function UserPage(props) {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {posts.map((p) => (
-          <Post key={p._id} post={p} isOwner={true} userProps={userProps} />
-        ))}
+        {posts.map((p) => {
+          if (p.isNFT === false)
+            return (
+              <Post key={p._id} post={p} isOwner={true} userProps={userProps} />
+            );
+        })}
       </div>  
     </div>
   );
