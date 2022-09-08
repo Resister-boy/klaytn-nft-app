@@ -29,7 +29,6 @@ function App() {
   const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
   const modalInputRef = useRef();
   
-
   // componentProps
   const componentProps = {
     user: user, setUser: setUser,

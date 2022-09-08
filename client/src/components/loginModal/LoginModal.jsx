@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import * as CaverAPI from "../../api/UseCaver";
 import * as KlipAPI from "../../api/UseKlip";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './loginModal.css';
 import axios from "axios";
 import QrModal from "../qrModal/QrModal";
 
@@ -30,7 +29,7 @@ export default function LoginModal(props) {
 			})
 		if (response && response.data)
 		{
-			alert(response.data.username);
+			alert(response.data.username + "님 환영합니다.");
 			setUser(response.data);
 			setShowModal(false);
 		}
@@ -60,25 +59,24 @@ export default function LoginModal(props) {
 				setModalProps({
 					title: "Register",
 					buttonName: "sign up",
-					onClick: (address, username) => {
+					onConfirm: (address, username) => {
 						registerUser(address, username);
 					}
 				});
 			}
-		});
-		setModalProps({
-			title: "Login",
-			buttonName: "close",
-			onClick: () => {
-				setShowModal(false);
-			},
 		});
 	}
 
 	useEffect(() => {
 		if (!user)
 		{
-			getUserData();
+			setModalProps({
+				title: "Login",
+				buttonName: "login",
+				onConfirm: () => {
+					getUserData();
+				},
+			});
 			setShowModal(true);
 		}
 	}, []);

@@ -6,8 +6,9 @@ import { Container, Form, Button, Modal } from "react-bootstrap";
 
 export default function QrModal(props) {
 	const {componentProps} = props;
+
 	// User
-	const myAddress = componentProps.myAddress; 
+	const myAddress = componentProps.myAddress;
 
 	// Modal
 	const showModal = componentProps.showModal;
@@ -53,12 +54,29 @@ export default function QrModal(props) {
 				<Button
 					variant="primary"
 					onClick={() => {
-						modalProps.onConfirm(myAddress, modalInputRef);
-						setShowModal(false);
+						switch (modalProps.title) {
+							case 'Login' :
+								modalProps.onConfirm();
+								break ;
+							case 'Register' :
+								modalProps.onConfirm(myAddress, modalInputRef.current.value);
+								break ;
+							case 'Mint' :
+								modalProps.onConfirm();
+						}
 					}}
 					style={{ backgroundColor: "#278ef5", borderColor: "#278ef5" }}
 				>
 					{modalProps.buttonName}
+				</Button>
+				<Button
+					variant="primary"
+					onClick={() => {
+						setShowModal(false);
+					}}
+					style={{ backgroundColor: "#494d52", borderColor: "#494d52" }}
+				>
+					close
 				</Button>
 			</Modal.Footer>
 		</Modal>
