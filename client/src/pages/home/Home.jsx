@@ -2,14 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert } from "react-bootstrap";
-import axios from "axios";
 
 import './home.css';
 import Feed from "../../components/feed/Feed";
 import LoginModal from "../../components/loginModal/LoginModal";
-
-const DEFAULT_QR_CODE = "DEFAULT";
-const DEFAULT_ADDRESS = "0x0000000000000000";
 
 export default function Home(props) {
 	const {componentProps} = props;

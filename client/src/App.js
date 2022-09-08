@@ -1,8 +1,7 @@
 import React from 'react';
-import Market from "./pages/market/Market";
 import Home from './pages/home/Home';
 import UserPage from './pages/user/UserPage';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import {
   BrowserRouter,
@@ -12,6 +11,7 @@ import {
 } from "react-router-dom";
 
 const DEFAULT_ADDRESS = "0x0000000000000000";
+const DEFAULT_QR_CODE = "DEFAULT";
 
 function App() {
   // User
@@ -23,9 +23,12 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalProps, setModalProps] = useState({
     title: "Modal",
-    buttonName: "close",
+    buttonName: "confirm",
     onConfirm: () => { },
   });
+  const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
+  const modalInputRef = useRef();
+  
 
   // componentProps
   const componentProps = {
@@ -33,7 +36,9 @@ function App() {
     myAddress: myAddress, setMyAddress: setMyAddress,
     myBalance: myBalance, setMyBalance: setMyBalance,
     showModal: showModal, setShowModal: setShowModal,
-    modalProps: modalProps, setModalProps: setModalProps
+    modalProps: modalProps, setModalProps: setModalProps,
+    qrvalue: qrvalue, setQrvalue: setQrvalue,
+    modalInputRef: modalInputRef
   };
 
   return (
