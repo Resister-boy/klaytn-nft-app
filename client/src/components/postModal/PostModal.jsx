@@ -4,7 +4,7 @@ import * as KlipAPI from "../../api/UseKlip";
 import * as KasAPI from "../../api/UseKAS";
 import "bootstrap/dist/css/bootstrap.min.css";
 import QrModal from "../qrModal/QrModal";
-
+import axios from "axios";
 
 export default function PostModal(props) {
 	const DEFAULT_ADDRESS = "0x0000000000000000";
@@ -24,21 +24,29 @@ export default function PostModal(props) {
 			alert("NO ADDRESS");
 			return;
 		}
-		// metadata upload
-		const metadataURL = await KasAPI.uploadMetaData("/posts/" + post._id);
-		if (!metadataURL) {
-			alert("메타 데이터 업로드에 실패하였습니다.");
+		if (post.isNFT === true) {
+			alert("this post is already minted");
 			return;
 		}
 		// mint token
+		const uri = "/posts/" + post._id;
 		const mintTokenID = Math.floor(Math.random() * 99) + 1016500;
-		alert(user.walletAddress, mintTokenID);
-		KlipAPI.mintCardWithURI(user.walletAddress, mintTokenID, metadataURL, setQrvalue, (result) => {
+
+		KlipAPI.mintCardWithURI(user.walletAddress, mintTokenID, uri, setQrvalue, (result) => {
 			alert(JSON.stringify(result));
-			setShowModal(false);
+			// set isNFT true
+			axios.put(uri, { userId: user._id, isNFT: true })
+				.catch(function (error) {
+					if (error.response) {
+						alert(error.response.data);
+						return;
+					}
+				})
 			// balance update
 			const _balance = CaverAPI.getBalance(user.walletAddress);
 			setMyBalance(_balance);
+			// modal hide
+			setShowModal(false);
 		});
 	};
 

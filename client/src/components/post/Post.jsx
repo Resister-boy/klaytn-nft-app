@@ -28,16 +28,15 @@ export default function Post(props) {
 
   const [postWriter, setPostWriter] = useState("");
 
-  // get post username
-  const getPostUser = async () => {
-    const response = await axios.get("/users/" + post.userId);
-    if (response && response.data)
-      setPostWriter(response.data.username);
-  }
-
   useEffect(() => {
+    // get post username
+    const getPostWriter = async () => {
+      const response = await axios.get("/users/" + post.userId);
+      if (response && response.data)
+        setPostWriter(response.data.username);
+    }
     return () => {
-      getPostUser();
+      getPostWriter();
     };
   }, []);
 
