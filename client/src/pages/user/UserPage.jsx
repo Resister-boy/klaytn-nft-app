@@ -50,7 +50,7 @@ export default function UserPage() {
 					{myPosts.map((p) => {
 						if (p.isNFT === false)
 							return (
-								<Post key={p._id} post={p} isOwner={true} />
+								<Post key={p._id} post={p} />
 							);
 					})}
 				</div>

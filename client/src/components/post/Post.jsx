@@ -4,10 +4,13 @@ import PostModal from "../postModal/PostModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 export default function Post(props) {
-	const { post, isOwner } = props;
+	const { post } = props;
+	const { user } = useContext(AuthContext);
 
 	// Modal
 	const [showModal, setShowModal] = useState(false);
@@ -69,7 +72,7 @@ export default function Post(props) {
 					<div className="postBottomLeft">
 					</div>
 					{
-						isOwner ?
+						post.userId === user._id ?
 							<div className="postBottomRight">
 								<button
 									className="postButton"

@@ -24,7 +24,7 @@ export default function Feed() {
       <div className="feedWrapper">
         <Upload />
         {posts.map((p) => (
-          <Post key={p._id} post={p} isOwner={false}/>
+          <Post key={p._id} post={p} />
         ))}
       </div>
     </div>
