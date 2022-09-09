@@ -7,16 +7,16 @@ import axios from "axios";
 
 
 export default function Post(props) {
-  const {post, isOwner} = props;
+	const { post, isOwner } = props;
 
-  // Modal
+	// Modal
 	const [showModal, setShowModal] = useState(false);
 	const [modalPrefference, setModalPrefference] = useState({
 		title: "Modal",
 		buttonName: "confirm",
 		onConfirm: () => { },
 	});
-  const DEFAULT_QR_CODE = "DEFAULT";
+	const DEFAULT_QR_CODE = "DEFAULT";
 	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
 	const modalInputRef = useRef();
 
@@ -27,58 +27,63 @@ export default function Post(props) {
 		modalInputRef: modalInputRef
 	}
 
-  const [postWriter, setPostWriter] = useState("");
+	const [postWriter, setPostWriter] = useState("");
 
-  useEffect(() => {
-    // get post username
-    const getPostWriter = async () => {
-      const response = await axios.get("/users/" + post.userId);
-      if (response && response.data)
-        setPostWriter(response.data.username);
-    }
-    return () => {
-      getPostWriter();
-    };
-  }, []);
+	useEffect(() => {
+		// get post username
+		const getPostWriter = async () => {
+			const response = await axios.get("users/" + post.userId)
+				.catch(function (error) {
+					setPostWriter("undefined");
+				})
+			if (response && response.data)
+			{
+				setPostWriter(response.data.username);
+			}
+		}
+		return () => {
+			getPostWriter();
+		};
+	}, []);
 
-  return (
-    <div className="post">
-      <div className="postWrapper">
-        <div className="postTop">
-          <div className="postTopLeft">
-            <span className="postUsername">
-              {postWriter}
-            </span>
-            <span className="postDate">{post.date}</span>
-          </div>
-          <div className="postTopRight">
-            <MoreVert />
-          </div>
-        </div>
-        <div className="postCenter">
-          <h4>{post?.title}</h4>
-          <br />
-          <span className="postText">{post?.content}</span>
-        </div>
-        <div className="postBottom">
-          <div className="postBottomLeft">
-          </div>
-          {
-            isOwner ?
-              <div className="postBottomRight">
-                <button
-                className="postButton"
-                onClick={() => {setShowModal(true)}}
-                >
-                  {modalPrefference.buttonName}
-                </button>
-              </div> : null
-          }
-        </div>
-      </div>
-      <div className="modalWrappter">
-        <PostModal modalProps={modalProps} post={post} />
-      </div>
-    </div>
-  );
+	return (
+		<div className="post">
+			<div className="postWrapper">
+				<div className="postTop">
+					<div className="postTopLeft">
+						<span className="postUsername">
+							{postWriter}
+						</span>
+						<span className="postDate">{post.date}</span>
+					</div>
+					<div className="postTopRight">
+						<MoreVert />
+					</div>
+				</div>
+				<div className="postCenter">
+					<h4>{post?.title}</h4>
+					<br />
+					<span className="postText">{post?.content}</span>
+				</div>
+				<div className="postBottom">
+					<div className="postBottomLeft">
+					</div>
+					{
+						isOwner ?
+							<div className="postBottomRight">
+								<button
+									className="postButton"
+									onClick={() => { setShowModal(true) }}
+								>
+									{modalPrefference.buttonName}
+								</button>
+							</div> : null
+					}
+				</div>
+			</div>
+			<div className="modalWrappter">
+				<PostModal modalProps={modalProps} post={post} />
+			</div>
+		</div>
+	);
 }

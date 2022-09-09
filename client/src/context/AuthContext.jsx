@@ -8,13 +8,15 @@ const INITIAL_STATE = {
 	networkVersion: undefined,
 	myBlance: undefined,
 	setMyBalance: () => { },
+	DEFAULT_ADDRESS: "",
 };
 
 export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({ children }) => {
+	const DEFAULT_ADDRESS = "0x0000000000000000";
 	const [user, setUser] = useState("");
-	const [myAddress, setMyAddress] = useState("0x000000000000");
+	const [myAddress, setMyAddress] = useState(DEFAULT_ADDRESS);
 	const [myBalance, setMyBalance] = useState(0);
 
 	return (
@@ -26,6 +28,7 @@ export const AuthContextProvider = ({ children }) => {
 				setMyAddress: setMyAddress,
 				myBalance: myBalance,
 				setMyBalance: setMyBalance,
+				DEFAULT_ADDRESS: DEFAULT_ADDRESS,
 			}}
 		>
 			{children}
