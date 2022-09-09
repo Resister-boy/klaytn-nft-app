@@ -4,8 +4,9 @@ import "./feed.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function Feed() {
-  const [posts, setPosts] = useState([]);
+export default function Feed(props) {
+  const {userProps} = props;
+  const [posts, setPosts] = useState([]);  
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -24,7 +25,7 @@ export default function Feed() {
       <div className="feedWrapper">
         <Upload />
         {posts.map((p) => (
-          <Post key={p._id} post={p} />
+          <Post key={p._id} post={p} userProps={userProps} isOwner={false}/>
         ))}
       </div>
     </div>
