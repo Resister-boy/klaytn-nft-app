@@ -5,15 +5,9 @@ import { Container, Form, Button, Modal } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function QrModal(props) {
-	const { myAddress } = useContext(AuthContext);
-	const { modalProps } = props;
-
 	// Modal
-	const showModal = modalProps.showModal;
-	const setShowModal = modalProps.setShowModal;
-	const modalPrefference = modalProps.modalPrefference;
-	const modalInputRef = modalProps.modalInputRef;
-	const qrvalue = modalProps.qrvalue;
+	const { modalProps } = props;
+	const { showModal, setShowModal, modalPrefference, modalInputRef, qrvalue } = modalProps;
 
 	return (
 		<Modal
@@ -52,16 +46,7 @@ export default function QrModal(props) {
 				<Button
 					variant="primary"
 					onClick={() => {
-						switch (modalPrefference.title) {
-							case 'Login':
-								modalPrefference.onConfirm();
-								break;
-							case 'Register':
-								modalPrefference.onConfirm(myAddress, modalInputRef.current.value);
-								break;
-							case 'Minting':
-								modalPrefference.onConfirm();
-						}
+						modalPrefference.onConfirm();
 					}}
 					style={{ backgroundColor: "#278ef5", borderColor: "#278ef5" }}
 				>
