@@ -13,7 +13,7 @@ export default function LoginButton() {
   // Modal
   const { setShowModal, setModalPrefference, modalInputRef, setQrvalue } = useContext(ModalContext);
 
-  // registserUser
+  // registerUser
   const registerUser = async (address) => {
     // try register user
     const response = await axios.post("/auth/register", { walletAddress: address, username: modalInputRef.current.value })

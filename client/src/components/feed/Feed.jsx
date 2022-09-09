@@ -1,11 +1,13 @@
 import Post from "../post/Post";
-import Upload from "../upload/Upload";
 import "./feed.css";
-import { useState, useEffect } from "react";
+import "./Feed.module.scss";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Feed() {
-  const [posts, setPosts] = useState([]);  
+  const [posts, setPosts] = useState([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -17,14 +19,15 @@ export default function Feed() {
       );
     }
     fetchPosts();
-  }, []);
+  }, [user._id]);
+
+  let idx = 0;
 
   return (
     <div className="feed">
       <div className="feedWrapper">
-        <Upload />
         {posts.map((p) => (
-          <Post key={p._id} post={p} />
+          <Post key={p._id} index={idx++} post={p} />
         ))}
       </div>
     </div>

@@ -1,0 +1,21 @@
+* {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	box-sizing: 0;
+}
+
+html {
+	height: 100%;
+	font-size: 14px;
+}
+
+.App {
+	background-color: white;
+}
+
+body {
+	height: 100%;
+	background-color: white;
+	color: black;
+}

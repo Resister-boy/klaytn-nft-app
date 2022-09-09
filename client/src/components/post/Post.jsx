@@ -1,92 +1,45 @@
-import "./post.css";
-import { MoreVert } from "@mui/icons-material";
-import PostModal from "../postModal/PostModal";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React, { useContext, useState, useEffect } from 'react'
+import styles from './Post.module.scss'
+import { Link } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
 
+export default function Post({ index, post }) {
+  const id = String(index).padStart(4, "0");
+  const fixedContent = post.content.slice(0, 60);
+  const [user, setUser] = useState({});
+  const { user: currentUser } = useContext(AuthContext);
 
-export default function Post(props) {
-	const { post } = props;
-	const { user } = useContext(AuthContext);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/users?userId=${post.userId}`);
+      setUser(res.data);
+    };
+    fetchUser();
+  }, [post.userId]);
 
-	// Modal
-	const [showModal, setShowModal] = useState(false);
-	const [modalPrefference, setModalPrefference] = useState({
-		title: "Modal",
-		buttonName: "confirm",
-		onConfirm: () => { },
-	});
-	const DEFAULT_QR_CODE = "DEFAULT";
-	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
-	const modalInputRef = useRef();
-
-	const modalProps = {
-		showModal: showModal, setShowModal: setShowModal,
-		modalPrefference: modalPrefference, setModalPrefference: setModalPrefference,
-		qrvalue: qrvalue, setQrvalue: setQrvalue,
-		modalInputRef: modalInputRef
-	}
-
-	const [postWriter, setPostWriter] = useState("");
-
-	useEffect(() => {
-		// get post username
-		const getPostWriter = async () => {
-			const response = await axios.get("users/" + post.userId)
-				.catch(function (error) {
-					setPostWriter("undefined");
-				})
-			if (response && response.data)
-			{
-				setPostWriter(response.data.username);
-			}
-		}
-		return () => {
-			getPostWriter();
-		};
-	}, []);
-
-	return (
-		<div className="post">
-			<div className="postWrapper">
-				<div className="postTop">
-					<div className="postTopLeft">
-						<span className="postUsername">
-							{postWriter}
-						</span>
-						<span className="postDate">{post.date}</span>
-					</div>
-					<div className="postTopRight">
-						<MoreVert />
-					</div>
-				</div>
-				<div className="postCenter">
-					<h4>{post?.title}</h4>
-					<br />
-					<span className="postText">{post?.content}</span>
-				</div>
-				<div className="postBottom">
-					<div className="postBottomLeft">
-					</div>
-					{
-						post.userId === user._id ?
-							<div className="postBottomRight">
-								<button
-									className="postButton"
-									onClick={() => { setShowModal(true) }}
-								>
-									{modalPrefference.buttonName}
-								</button>
-							</div> : null
-					}
-				</div>
-			</div>
-			<div className="modalWrappter">
-				<PostModal modalProps={modalProps} post={post} />
-			</div>
-		</div>
-	);
+  return (
+    <section className={styles.container}>
+      <Link to={`/post/${id}`}>
+        <img
+          src="https://gateway.pinata.cloud/ipfs/QmeeXqY7pgRg1KvmDjSgw191oEG1wkxncq5RrAt6XK4h1p"
+          alt="content" 
+          width="270"
+          height="270"
+        />
+        <div className={styles.textContainer}>
+          <div className={styles.titleContainer}>
+            <span className={styles.title}>{post.title}</span>
+            <span className={styles.number}>#{id}</span>
+          </div>
+          <div className={styles.contentContainer}>
+            <div className={styles.content}>
+              {fixedContent}...
+            </div>
+            <span className={styles.date}>{post.createdAt}</span>
+          </div>
+        </div>
+      </Link>
+    </section>
+  )
 }
