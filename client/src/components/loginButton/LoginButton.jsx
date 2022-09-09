@@ -35,7 +35,6 @@ export default function LoginButton() {
 
   // Login api call
   const loginCall = async (address) => {
-    alert(address);
     const response = await axios.post("/auth/login", { walletAddress: address })
       .catch(function (error) {
         // if user not found(ststus: 404) try register
@@ -64,6 +63,7 @@ export default function LoginButton() {
             // if api call fails, return immediately
             if (!response)
               return;
+            // alert("Welcome back " + response.data.username + "!");
             // set user info		
             setMyAddress(address);
             const _balance = await CaverAPI.getBalance(address);

@@ -17,11 +17,8 @@ function Header() {
             <Logo />
           </div>
           <nav className={styles.navContainer}>
-            <Link to="/feed">
-              <span className={styles.navItem}>Feed</span>
-            </Link>
-            <Link to="/dashboard">
-              <span className={styles.navItem}>Dashboard</span>
+            <Link to="/market">
+              <span className={styles.navItem}>Market</span>
             </Link>
           </nav>
           <div className={styles.walletContainer}>
