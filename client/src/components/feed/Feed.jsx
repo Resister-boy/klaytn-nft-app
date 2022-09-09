@@ -1,8 +1,7 @@
 import Post from "../post/Post";
-import "./feed.css";
-import "./Feed.module.scss";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import styles from './Feed.module.scss';
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Feed() {
@@ -24,12 +23,15 @@ export default function Feed() {
   let idx = 0;
 
   return (
-    <div className="feed">
-      <div className="feedWrapper">
+    <section className={styles.container}>
+      <div className={styles.title}>
+        Klayklay Feed
+      </div>
+      <div className={styles.postContainer}>
         {posts.map((p) => (
           <Post key={p._id} index={idx++} post={p} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

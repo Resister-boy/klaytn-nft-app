@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react';
+import { format } from "timeago.js";
 import styles from './Post.module.scss'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext';
@@ -12,8 +13,12 @@ export default function Post({ index, post }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
-      setUser(res.data);
+      const res = await axios.get("/users/" + post.userId)
+        .catch(function (error) {
+          setUser(undefined);
+        })
+      if (res && res.data)
+        setUser(res.data);
     };
     fetchUser();
   }, [post.userId]);
@@ -36,7 +41,7 @@ export default function Post({ index, post }) {
             <div className={styles.content}>
               {fixedContent}...
             </div>
-            <span className={styles.date}>{post.createdAt}</span>
+            <span className={styles.date}>{format(post.createdAt)}</span>
           </div>
         </div>
       </Link>
