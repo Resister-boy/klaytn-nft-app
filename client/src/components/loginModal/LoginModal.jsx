@@ -20,50 +20,56 @@ export default function LoginModal(props) {
 	const setQrvalue = modalProps.setQrvalue;
 
 	const registerUser = async (address, username) => {
+		// try register user
 		const response = await axios.post("/auth/register", { walletAddress: address, username: username })
 			.catch(function (error) {
-				if (error.response) {
-					alert("server error");
-					return ;
+				if (error.response & error.response.data) {
+					alert(error.response.data);
 				}
 			})
-		if (response && response.data)
-		{
-			alert(response.data.username + "님 환영합니다.");
-			setUser(response.data);
-			setShowModal(false);
-		}
+		// if api call fails, return immeidatley
+		if (!(response && response.data))
+			return ;
+		// alert success message
+		alert(username + "님 회원가입이 완료됐습니다. 다시 로그인 해주세요.");
+		// set login modal
+		setModalPrefference({
+			title: "Login",
+			buttonName: "login",
+			onConfirm: () => {
+				loginUser();
+			},
+		});
 	}
 
-	const getUserData = () => {
+	const loginUser = () => {
 		KlipAPI.getAddress(setQrvalue, async (address) => {
+			// try login
+			await setMyAddress(address);
 			const response = await axios.post("/auth/login", { walletAddress: address })
 				.catch(function (error) {
+					// if user not found(ststus: 404) try register
 					if (error.response && error.response.status === 404) {
 						alert("회원가입이 필요합니다.");
-					}
-					else if (error.response) {
+						setModalPrefference({
+							title: "Register",
+							buttonName: "sign up",
+							onConfirm: (address, username) => {
+								registerUser(address, username);
+							}
+						});
+					} else {
 						alert("server error");
 					}
 				})
-			setMyAddress(address);
+			// if api call fails, return immeidatley
+			if (!(response && response.data))
+				return;
+			// set user info		
 			const _balance = await CaverAPI.getBalance(address);
 			setMyBalance(_balance);
-			if (response && response.data)
-			{
-				setUser(response.data);
-				setShowModal(false);
-			}
-			else
-			{
-				setModalPrefference({
-					title: "Register",
-					buttonName: "sign up",
-					onConfirm: (address, username) => {
-						registerUser(address, username);
-					}
-				});
-			}
+			setUser(response.data);
+			setShowModal(false);
 		});
 	}
 
@@ -74,7 +80,7 @@ export default function LoginModal(props) {
 				title: "Login",
 				buttonName: "login",
 				onConfirm: () => {
-					getUserData();
+					loginUser();
 				},
 			});
 			setShowModal(true);
