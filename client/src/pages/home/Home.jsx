@@ -2,38 +2,16 @@ import React from "react";
 import { useNavigate } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert } from "react-bootstrap";
-import { useRef, useState } from "react";
+import { useContext } from "react";
 
 import './home.css';
 import Feed from "../../components/feed/Feed";
-import LoginModal from "../../components/loginModal/LoginModal";
+import { AuthContext } from "../../context/AuthContext";
 
-const DEFAULT_QR_CODE = "DEFAULT";
-
-export default function Home(props) {
-	const {userProps} = props;
+export default function Home() {
 	const navigate = useNavigate();
-
 	// User
-	const user = userProps.user;
-	const myBalance = userProps.myBalance;
-
-	// Modal
-	const [showModal, setShowModal] = useState(false);
-	const [modalPrefference, setModalPrefference] = useState({
-		title: "Login",
-		buttonName: "login",
-		onConfirm: () => { },
-	});
-	const [qrvalue, setQrvalue] = useState(DEFAULT_QR_CODE);
-	const modalInputRef = useRef();
-
-	const modalProps = {
-		showModal: showModal, setShowModal: setShowModal,
-		modalPrefference: modalPrefference, setModalPrefference: setModalPrefference,
-		qrvalue: qrvalue, setQrvalue: setQrvalue,
-		modalInputRef: modalInputRef
-	}
+	const { user, myBalance } = useContext(AuthContext);
 
 	return (
 		<div className="App">
@@ -50,10 +28,9 @@ export default function Home(props) {
 				>
 					{myBalance}
 				</Alert>
-				<LoginModal userProps={userProps} modalProps={modalProps}></LoginModal>	
 			</div>
 			<div className="homeContainer">
-				<Feed userProps={userProps} />
+				<Feed />
 			</div>
 		</div>
 	);
