@@ -5,8 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
+
 export default function Post(props) {
-  const {userProps, post, isOwner} = props;
+  const {post, isOwner} = props;
 
   // Modal
 	const [showModal, setShowModal] = useState(false);
@@ -76,7 +77,7 @@ export default function Post(props) {
         </div>
       </div>
       <div className="modalWrappter">
-        <PostModal userProps={userProps} modalProps={modalProps} post={post} />
+        <PostModal modalProps={modalProps} post={post} />
       </div>
     </div>
   );

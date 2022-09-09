@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import QRCode from "qrcode.react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Form, Button, Modal } from "react-bootstrap";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function QrModal(props) {
-	const {userProps, modalProps} = props;
-
-	// User
-	const myAddress = userProps.myAddress;
+	const { myAddress } = useContext(AuthContext);
+	const { modalProps } = props;
 
 	// Modal
 	const showModal = modalProps.showModal;
@@ -54,13 +53,13 @@ export default function QrModal(props) {
 					variant="primary"
 					onClick={() => {
 						switch (modalPrefference.title) {
-							case 'Login' :
+							case 'Login':
 								modalPrefference.onConfirm();
-								break ;
-							case 'Register' :
+								break;
+							case 'Register':
 								modalPrefference.onConfirm(myAddress, modalInputRef.current.value);
-								break ;
-							case 'Minting' :
+								break;
+							case 'Minting':
 								modalPrefference.onConfirm();
 						}
 					}}

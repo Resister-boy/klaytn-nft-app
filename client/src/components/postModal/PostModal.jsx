@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import * as CaverAPI from "../../api/UseCaver";
 import * as KlipAPI from "../../api/UseKlip";
 import * as KasAPI from "../../api/UseKAS";
 import "bootstrap/dist/css/bootstrap.min.css";
 import QrModal from "../qrModal/QrModal";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function PostModal(props) {
 	const DEFAULT_ADDRESS = "0x0000000000000000";
-	const { userProps, modalProps, post } = props;
+	const { modalProps, post } = props;
 
 	// User
-	const user = userProps.user;
-	const setMyBalance = userProps.setMyBalance;
+	const { user, setMyBalance } = useContext(AuthContext);
 
 	// Modal
 	const setShowModal = modalProps.setShowModal;
@@ -72,6 +72,6 @@ export default function PostModal(props) {
 	}, []);
 
 	return (
-		<QrModal userProps={userProps} modalProps={modalProps}></QrModal>
+		<QrModal modalProps={modalProps}></QrModal>
 	);
 }

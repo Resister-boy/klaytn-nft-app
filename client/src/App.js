@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home userProps={userProps}/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/user" element={ user ? <UserPage userProps={userProps}/> : <Navigate to="/" /> } />
       </Routes>
     </BrowserRouter>

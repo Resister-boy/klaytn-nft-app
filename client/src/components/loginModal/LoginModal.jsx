@@ -1,18 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import * as CaverAPI from "../../api/UseCaver";
 import * as KlipAPI from "../../api/UseKlip";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import QrModal from "../qrModal/QrModal";
 
-export default function LoginModal(props) {
-	const {userProps, modalProps} = props;
+import { AuthContext } from "../../context/AuthContext";
 
-	// User
-	const user = userProps.user;
-	const setUser = userProps.setUser;
-	const setMyBalance = userProps.setMyBalance;
-	const setMyAddress = userProps.setMyAddress;
+export default function LoginModal(props) {
+	const { user, setUser, setMyBalance, setMyAddress } = useContext(AuthContext);
+	const { modalProps } = props;
 
 	// Modal
 	const setShowModal = modalProps.setShowModal;
@@ -29,7 +26,7 @@ export default function LoginModal(props) {
 			})
 		// if api call fails, return immeidatley
 		if (!(response && response.data))
-			return ;
+			return;
 		// alert success message
 		alert(username + "님 회원가입이 완료됐습니다. 다시 로그인 해주세요.");
 		// set login modal
@@ -45,7 +42,7 @@ export default function LoginModal(props) {
 	const loginUser = () => {
 		KlipAPI.getAddress(setQrvalue, async (address) => {
 			// try login
-			await setMyAddress(address);
+			setMyAddress(address);
 			const response = await axios.post("/auth/login", { walletAddress: address })
 				.catch(function (error) {
 					// if user not found(ststus: 404) try register
@@ -74,8 +71,7 @@ export default function LoginModal(props) {
 	}
 
 	useEffect(() => {
-		if (!user)
-		{
+		if (!user) {
 			setModalPrefference({
 				title: "Login",
 				buttonName: "login",
@@ -88,6 +84,6 @@ export default function LoginModal(props) {
 	}, []);
 
 	return (
-		<QrModal userProps={userProps} modalProps={modalProps}></QrModal>
+		<QrModal modalProps={modalProps}></QrModal>
 	);
 }

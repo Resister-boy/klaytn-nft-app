@@ -2,21 +2,20 @@ import React from "react";
 import { useNavigate } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert } from "react-bootstrap";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 
 import './home.css';
 import Feed from "../../components/feed/Feed";
 import LoginModal from "../../components/loginModal/LoginModal";
+import { AuthContext } from "../../context/AuthContext";
 
 const DEFAULT_QR_CODE = "DEFAULT";
 
-export default function Home(props) {
-	const {userProps} = props;
+export default function Home() {
 	const navigate = useNavigate();
 
 	// User
-	const user = userProps.user;
-	const myBalance = userProps.myBalance;
+	const { user, myBalance } = useContext(AuthContext);
 
 	// Modal
 	const [showModal, setShowModal] = useState(false);
@@ -50,10 +49,10 @@ export default function Home(props) {
 				>
 					{myBalance}
 				</Alert>
-				<LoginModal userProps={userProps} modalProps={modalProps}></LoginModal>	
+				<LoginModal modalProps={modalProps} />
 			</div>
 			<div className="homeContainer">
-				<Feed userProps={userProps} />
+				<Feed />
 			</div>
 		</div>
 	);
