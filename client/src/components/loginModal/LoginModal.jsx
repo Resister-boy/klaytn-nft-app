@@ -9,16 +9,13 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function LoginModal(props) {
 	const { user, setUser, setMyBalance, setMyAddress } = useContext(AuthContext);
-	const { modalProps } = props;
-
 	// Modal
-	const setShowModal = modalProps.setShowModal;
-	const setModalPrefference = modalProps.setModalPrefference;
-	const setQrvalue = modalProps.setQrvalue;
+	const { modalProps } = props;
+	const { setShowModal, setModalPrefference, setQrvalue, modalInputRef } = modalProps;
 
-	const registerUser = async (address, username) => {
+	const registerUser = (address) => {
 		// try register user
-		const response = await axios.post("/auth/register", { walletAddress: address, username: username })
+		const response = axios.post("/auth/register", { walletAddress: address, username: modalInputRef.current.value })
 			.catch(function (error) {
 				if (error.response & error.response.data) {
 					alert(error.response.data);
@@ -28,7 +25,7 @@ export default function LoginModal(props) {
 		if (!(response && response.data))
 			return;
 		// alert success message
-		alert(username + "님 회원가입이 완료됐습니다. 다시 로그인 해주세요.");
+		alert(response.data.username + "님 회원가입이 완료됐습니다. 다시 로그인 해주세요.");
 		// set login modal
 		setModalPrefference({
 			title: "Login",
@@ -42,7 +39,6 @@ export default function LoginModal(props) {
 	const loginUser = () => {
 		KlipAPI.getAddress(setQrvalue, async (address) => {
 			// try login
-			setMyAddress(address);
 			const response = await axios.post("/auth/login", { walletAddress: address })
 				.catch(function (error) {
 					// if user not found(ststus: 404) try register
@@ -51,8 +47,8 @@ export default function LoginModal(props) {
 						setModalPrefference({
 							title: "Register",
 							buttonName: "sign up",
-							onConfirm: (address, username) => {
-								registerUser(address, username);
+							onConfirm: () => {
+								registerUser(address);
 							}
 						});
 					} else {
@@ -63,6 +59,7 @@ export default function LoginModal(props) {
 			if (!(response && response.data))
 				return;
 			// set user info		
+			setMyAddress(address);
 			const _balance = await CaverAPI.getBalance(address);
 			setMyBalance(_balance);
 			setUser(response.data);
