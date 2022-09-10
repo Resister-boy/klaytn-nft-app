@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Form, Button, Modal } from "react-bootstrap";
+import React from "react";
+import { Button } from "react-bootstrap";
+import styles from "./ModalButton.module.scss";
 
-export default function ModalButton({ buttonName, onClickFunction, color }) {
+export default function ModalButton({ buttonName, onClickFunction }) {
   if (!buttonName)
     return (null);
   return (
-    <Button
-      variant="primary"
-      onClick={() => {
-        onClickFunction()
-      }}
-      style={{ backgroundColor: color, borderColor: color }}
-    >
-      {buttonName}
-    </Button>
+    <div className={styles.container}>
+      <Button
+        variant="primary"
+        className={styles.modalButton}
+        onClick={() => {
+          onClickFunction()
+        }}
+      >
+        {buttonName}
+      </Button>
+    </div>
   );
 }
