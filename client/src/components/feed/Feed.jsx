@@ -10,7 +10,11 @@ export default function Feed() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await axios.get("/posts/timeline/all");
+      const response = await axios.get("/posts/timeline/all")
+        .catch(function (error) {
+          if (error && error.respone)
+            alert(error.response.data);
+        })
       setPosts(
         response.data.sort((p1, p2) => {
           return new Date(p2.createdAt) - new Date(p1.createdAt);
@@ -18,7 +22,7 @@ export default function Feed() {
       );
     }
     fetchPosts();
-  }, [user._id]);
+  }, []);
 
   let idx = 0;
 
