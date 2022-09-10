@@ -24,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/posts/:id" element={ <PostDetail /> } />
         {/* <Route path="/user" element={user ? <UserPage /> : <Navigate to="/" />} /> */}
+        {/* <Route path="/upload:id" element={user ? <UserPage /> : <Navigate to="/" />} /> */}
       </Routes>
       <Footer />
     </BrowserRouter>

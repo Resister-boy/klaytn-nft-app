@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import * as CaverAPI from "../../api/UseCaver";
 import * as KlipAPI from "../../api/UseKlip";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { ModalContext } from "../../context/ModalContext";
 import QrModal from "../qrModal/QrModal";
+import styles from './LoginButton.module.scss'
 
 export default function LoginButton() {
   // User
@@ -125,8 +125,8 @@ export default function LoginButton() {
   }
 
   return (
-    <div>
-      <button onClick={() => { showLoginModal() }}>
+    <div className={styles.container}>
+      <button className={styles.modalButton} onClick={() => { showLoginModal() }}>
         Login
       </button>
       <QrModal />

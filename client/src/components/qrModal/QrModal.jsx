@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import QRCode from "qrcode.react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Form, Button, Modal } from "react-bootstrap";
+import { Container, Form, Modal } from "react-bootstrap";
 import { ModalContext } from "../../context/ModalContext";
 import ModalButton from "../modalButton/ModalButton";
+import styles from './QrModal.module.scss';
 
 export default function QrModal() {
   // Modal
@@ -11,28 +11,28 @@ export default function QrModal() {
 
   return (
     <Modal
-      centered
-      size="sm"
       show={showModal}
-      onHide={() => {
-        setShowModal(false);
-      }}
-      style={{ border: 0 }}
+      onHide={() => {setShowModal(false)}}
+      className={styles.container}
     >
-      <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, opacity: 0.8 }}>
-        <Modal.Title>{modalPrefference.title}</Modal.Title>
+      <Modal.Header className={styles.titleContainer}>
+        <Modal.Title className={styles.title}>{modalPrefference.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ border: 0, opacity: 0.8 }}>
-        <Container style={{ backgroundColor: "white", width: 200, height: 200, padding: 10 }} >
-          <QRCode value={qrvalue} size={180} style={{ margin: "auto" }} />
+      <Modal.Body className={styles.bodyContainer}>
+        <Container className={styles.qrContainer}>
+          <div style={{backgroundColor: "white", width: "160", height: "160", padding: 5}}>
+          <QRCode value={qrvalue} size={150} style={{ margin: "auto", backgroundColor: "white"}} />
+          </div>
         </Container>
         {modalPrefference.title === "Register" ?
-          <Form style={{ padding: 20 }}>
-            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label>User name</Form.Label>
+          <Form className={styles.inputContainer}>
+            <Form.Group>
+              <Form.Label className={styles.inputTitle}>
+                User name
+              </Form.Label>
               <Form.Control
                 type="name"
-                placeholder=""
+                className={styles.inputItem}
                 autoFocus
                 ref={modalInputRef}
               />
@@ -40,9 +40,7 @@ export default function QrModal() {
           </Form> : null
         }
       </Modal.Body>
-      <Modal.Footer
-        style={{ display: "flex", justifyContent: "center", alignItems: "center", border: 0, opacity: 0.8 }}
-      >
+      <Modal.Footer className={styles.footerContainer}>
         <ModalButton buttonName={modalPrefference.kasButton} onClickFunction={modalPrefference.onClickKas} color="#278ef5" />
         <ModalButton buttonName={modalPrefference.klipButton} onClickFunction={modalPrefference.onClickKlip} color="#278ef5" />
         <ModalButton buttonName={modalPrefference.confirmButton} onClickFunction={modalPrefference.onConfirm} color="#278ef5" />
