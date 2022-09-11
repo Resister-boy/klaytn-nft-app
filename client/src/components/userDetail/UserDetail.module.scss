@@ -1,0 +1,65 @@
+.container {
+  width: 80%;
+  margin: 2rem auto;
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    .coverImageContent {
+      border-radius: 20px;
+    }
+  }
+  .profileContainer {
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    .profileImageContent {
+      border-radius: 10px;
+    }
+    .textContainer {
+      margin: 20px;
+      width: 80%;
+      .textItems {
+        display: flex;
+        padding: 25px auto;
+        align-items: center;
+        justify-content: space-between;
+        .textBox {
+          width: 70%;
+          .userName {
+            color: #292929;
+            font-size: 25px;
+          }
+          .userAddress {
+            color: #787878;
+            font-size: 14px;
+            margin-left: 10px;
+          }
+        }
+        .socialContainer {
+          width: 30%;
+          display: flex;
+          justify-content: space-around;
+          button {
+            width: 80px;
+            padding: 8px auto;
+            background-color: #fff;
+            border: 1px solid aqua;
+            color: aqua;
+            border-radius: 7px;
+            transition: all .3s;
+            &:hover {
+              cursor: pointer;
+              color: #fff;
+              background-color: aqua;
+            }
+          }
+        }
+        .description {
+          font-size: 14px;
+          margin-top: 30px
+        }
+      }
+    }
+  }
+}

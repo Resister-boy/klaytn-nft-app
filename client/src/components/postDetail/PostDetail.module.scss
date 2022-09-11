@@ -1,0 +1,70 @@
+.container {
+  width: 70%;
+  margin: 60px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  .imageContainer {
+    .imageContent {
+      width: 300px;
+    }
+  }
+
+  .textContainer {
+    width: 50%;
+
+    .basicContainer {
+      border-bottom: 1px solid #ccc;
+
+      .contentTitle {
+        color: #292929;
+        font-size: 23px;
+      }
+
+      .contentAddress {
+        color: #ccc;
+        font-size: 15px;
+      }
+
+      .contentDate {
+        margin: 15px auto;
+        text-align: right;
+      }
+    }
+
+    .uniqueContainer {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .contentContainer {
+        width: 90%;
+        height: 250px;
+        margin: 30px auto;
+        background-color: #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+      }
+
+      .descriptContainer {
+        padding: 10px;
+
+        .ownerName {
+          color: #292929;
+          font-size: 18px;
+          margin-right: 10px;
+        }
+
+        .ownerAddress {
+          color: #ccc;
+          font-size: 14px;
+        }
+      }
+
+
+    }
+  }
+}
