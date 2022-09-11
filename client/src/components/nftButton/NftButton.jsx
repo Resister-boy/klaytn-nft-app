@@ -11,6 +11,7 @@ export default function NftButton({ user, post, type }) {
   // User
   const { user: currentUser, setMyBalance } = useContext(AuthContext);
   // Modal
+
   const {
     showModal,
     setShowModal,
@@ -19,11 +20,42 @@ export default function NftButton({ user, post, type }) {
     DEFAULT_ADDRESS,
   } = useContext(ModalContext);
 
+  let button;
+
   const checkType = (type) => {
     if (type === "mint") {
-      return true;
+      button = (
+        <button
+          className={styles.modalButton}
+          onClick={() => {
+            showMintModal();
+          }}
+        >
+          Mint
+        </button>
+      );
     } else if (type === "market") {
-      return false;
+      button = (
+        <button
+          className={styles.modalButton}
+          onClick={() => {
+            showMarketModal();
+          }}
+        >
+          Sale
+        </button>
+      );
+    } else if (type === "buy") {
+      button = (
+        <button
+          className={styles.modalButton}
+          onClick={() => {
+            showBuyModal();
+          }}
+        >
+          Buy
+        </button>
+      );
     }
   };
 
@@ -60,7 +92,7 @@ export default function NftButton({ user, post, type }) {
 
     let request_key = null;
     axios.put("/klaytn/mintPostURL", uriJson).then((res) => {
-      console.log(currentUser);
+      console.log(uriJson);
       setQrvalue(res.data.url + res.data.request_key);
       request_key = res.data.request_key;
       let timeId = setInterval(() => {
@@ -75,7 +107,11 @@ export default function NftButton({ user, post, type }) {
               setQrvalue("DEFAULT");
               alert("Mint Successful");
               axios
-                .put(uri, { userId: currentUser._id, isNFT: true, tokenId: mintTokenID })
+                .put(uri, {
+                  userId: currentUser._id,
+                  isNFT: true,
+                  tokenId: mintTokenID,
+                })
                 .catch(function (error) {
                   if (error.response) {
                     alert(error.response.data);
@@ -121,7 +157,7 @@ export default function NftButton({ user, post, type }) {
       fromAddress: currentUser.walletAddress,
       tokenId: post.tokenId,
     };
-    console.log(cardInfo)
+    console.log(cardInfo);
     try {
       axios.put("/klaytn/saleTokenURL", cardInfo).then((res) => {
         const qvalue = res.data.url + res.data.request_key;
@@ -138,6 +174,62 @@ export default function NftButton({ user, post, type }) {
                 console.log(`[result] ${JSON.stringify(res.data.result)}`);
                 clearInterval(timeId);
                 alert("Now token is On Market");
+                axios
+                  .put("/posts/" + post._id, {
+                    userId: currentUser._id,
+                    isOnSale: true,
+                  })
+                  .catch(function (error) {
+                    if (error.response) {
+                      alert(error.response.data);
+                      return;
+                    }
+                  });
+                setShowModal(false);
+                // navigate("/mypage/" + Address);
+              }
+            });
+        }, 1000);
+      });
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
+  const buyPost = () => {
+    let request_key = null;
+    const cardInfo = {
+      isMobile: false,
+      tokenId: post.tokenId,
+    };
+    console.log(cardInfo);
+    try {
+      axios.put("/klaytn/purchaseTokenURL", cardInfo).then((res) => {
+        const qvalue = res.data.url + res.data.request_key;
+        // console.log(qvalue);
+        setQrvalue(qvalue);
+        request_key = res.data.request_key;
+        let timeId = setInterval(() => {
+          axios
+            .get(
+              `https://a2a-api.klipwallet.com/v2/a2a/result?request_key=${request_key}`
+            )
+            .then((res) => {
+              if (res.data.result) {
+                console.log(`[result] ${JSON.stringify(res.data.result)}`);
+                clearInterval(timeId);
+                alert("Now token is On Market");
+                axios
+                  .put("/posts/" + post._id, {
+                    userId: currentUser._id,
+                    isOnSale: false,
+                  })
+                  .catch(function (error) {
+                    if (error.response) {
+                      alert(error.response.data);
+                      return;
+                    }
+                  });
                 setShowModal(false);
                 // navigate("/mypage/" + Address);
               }
@@ -181,29 +273,26 @@ export default function NftButton({ user, post, type }) {
     setShowModal(true);
   };
 
+  const showBuyModal = () => {
+    setModalPrefference({
+      title: "Sale",
+      kasButton: "",
+      klipButton: "Use Klip",
+      confirmButton: "",
+      onClickKas: () => {},
+      onClickKlip: () => {
+        buyPost();
+      },
+    });
+    // show modal
+    setShowModal(true);
+  };
+
   if (user.walletAddress !== currentUser.walletAddress) return null;
   return (
     <div className={styles.container}>
-      {checkType(type) ? (
-        <button
-          className={styles.modalButton}
-          onClick={() => {
-            showMintModal();
-          }}
-        >
-          Mint
-        </button>
-      ) : (
-        <button
-          className={styles.modalButton}
-          onClick={() => {
-            showMarketModal();
-          }}
-        >
-          Sale
-        </button>
-      )}
-
+      {checkType(type)}
+      {button}
       <QrModal />
     </div>
   );

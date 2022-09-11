@@ -26,6 +26,10 @@ const PostSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		isOnSale: {
+			type: Boolean,
+			default: false,
+		},
 		tokenId: {
 			type: String,
 		},

@@ -32,6 +32,19 @@ export default function PostDetail() {
     fetchPost();
   }, []);
 
+  let button;
+  const checkButton = () => {
+    if (!post.isNFT) {
+      button = <NftButton post={post} user={user} type="mint"/>
+    } else {
+      if (!post.isOnSale) {
+        button = <NftButton post={post} user={user} type="market"/>
+      } else {
+        button = <NftButton post={post} user={user} type="buy"/>
+      }
+    }
+  }
+
   return (
     <ModalContextProvider>
       <section className={styles.container}>
@@ -60,8 +73,8 @@ export default function PostDetail() {
               <div>isNFT? {post.isNFT ? "true" : "false"}</div>
             </div>
             <div className=''>
-            {post.isNFT ? <NftButton post={post} user={user} type="market"/> : <NftButton post={post} user={user} type="mint"/>}
-              
+            {checkButton()}
+            {button}
             </div>
           </div>
         </div>

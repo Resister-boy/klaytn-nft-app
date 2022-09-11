@@ -16,11 +16,22 @@ export default function MarketFeed() {
           if (error && error.respone)
             alert(error.response.data);
         })
-      setPosts(
-        response.data.sort((p1, p2) => {
-          return new Date(p2.createdAt) - new Date(p1.createdAt);
-        })
-      );
+      console.log(response.data)
+      let _nftPosts = [];
+      for (let i = 0; i < response.data.length; i++) {
+        const _nft = await axios.get(response.data[i].uri);
+        if (_nft.data == null) {
+          continue;
+        } else {
+          _nftPosts.push(_nft.data)
+        }
+      }
+      setPosts(_nftPosts);
+      // setPosts(
+      //   response.data.sort((p1, p2) => {
+      //     return new Date(p2.createdAt) - new Date(p1.createdAt);
+      //   })
+      // );
     }
     fetchPosts();
   }, []);
@@ -30,7 +41,7 @@ export default function MarketFeed() {
   return (
     <section className={styles.container}>
       <div className={styles.title}>
-        Klayklay Feed
+        Klayklay Market
       </div>
       <div className={styles.postContainer}>
         {posts.map((p) => (
