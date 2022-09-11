@@ -7,6 +7,8 @@ import UserDetail from "../../components/userDetail/UserDetail";
 import styles from "./MyProfile.module.scss"
 
 export default function MyProfile() {
+  // User
+  const { user: currentUser, myAddress: walletAddress, setMyBalance } = useContext(AuthContext);
   let idx = 0;
 
   // Post
@@ -35,21 +37,39 @@ export default function MyProfile() {
     const fetchMyNFTs = async () => {
       if (!user) {
         alert("fetch nfts error: no user");
-        return;
+        return ;
       }
-      const _nfts = await CaverAPI.fetchCardOf(user.walletAddress);
+      const _nftURLs = await axios.put("/klaytn/info/" + walletAddress);
       let _nftPosts = [];
-      for (let i = 0; i < _nfts.length; i++) {
-        const response = await axios.get(_nfts[i].uri)
-          .catch(function (error) {
-          })
-        if (response && response.data) {
-          _nftPosts.push(response.data);
+      for (let i = 0; i < _nftURLs.data.length; i++) {
+        const _nft = await axios.get(_nftURLs.data[i].uri)
+        if (_nft.data == null) {
+          continue;
+        } else {
+          _nftPosts.push(_nft.data)
         }
       }
-      setMyNFTs(_nftPosts);
-      console.log(_nftPosts);
+      // console.log(_nftPosts)
+      setMyNFTs(_nftPosts)
     }
+    // const fetchMyNFTs = async () => {
+    //   if (!user) {
+    //     alert("fetch nfts error: no user");
+    //     return;
+    //   }
+    //   const _nfts = await CaverAPI.fetchCardOf(user.walletAddress);
+    //   let _nftPosts = [];
+    //   for (let i = 0; i < _nfts.length; i++) {
+    //     const response = await axios.get(_nfts[i].uri)
+    //       .catch(function (error) {
+    //       })
+    //     if (response && response.data) {
+    //       _nftPosts.push(response.data);
+    //     }
+    //   }
+    //   setMyNFTs(_nftPosts);
+    //   console.log(_nftPosts);
+    // }
 
     fetchMyPosts();
     fetchMyNFTs();
@@ -76,6 +96,7 @@ export default function MyProfile() {
           <div className={styles.postContainer}>
             {myPosts.map((p) => {
               if (p.isNFT === false)
+                // console.log(p)
                 return (<Post key={p._id} index={idx++} post={p} />);
             })}
           </div> : null
