@@ -38,7 +38,6 @@ export default function PostDetail() {
             <img
               src={post.image}
               alt="content"
-              width="400"
               className={styles.imageContent}
             />
             : null

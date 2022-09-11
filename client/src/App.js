@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './pages/home/Home';
-import UserPage from './pages/user/UserPage';
+import UserPage from './pages/myProfile/MyProfile';
+import NotFound from './pages/notFound/NotFound';
 import './App.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -23,7 +24,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts/:id" element={ <PostDetail /> } />
-        {/* <Route path="/user" element={user ? <UserPage /> : <Navigate to="/" />} /> */}
+        <Route path="/myprofile" element={user ? <UserPage /> : <Navigate to="/" />} />
+        <Route path="*" element={ <NotFound /> } />
         {/* <Route path="/upload:id" element={user ? <UserPage /> : <Navigate to="/" />} /> */}
       </Routes>
       <Footer />

@@ -9,6 +9,11 @@
     cursor: pointer;
     transform: translateY(-2px);
   }
+  .imageContainer {
+    width: 270px;
+    height: 250px;
+    border-radius: 20px 20px 0 0;
+  }
   .textContainer {
     width: 90%;
     margin: 0 auto;

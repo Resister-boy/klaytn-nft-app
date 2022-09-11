@@ -24,12 +24,11 @@ export default function Post({ index, post }) {
     <section className={styles.container}>
       <Link to={`/posts/${post._id}`}>
         {
-          user?.image ?
+          post?.image ?
             <img
-              src={user?.image}
+              src={post?.image}
               alt="content"
-              width="270"
-              height="270"
+              className={styles.imageContainer}
             /> : null
         }
         <div className={styles.textContainer}>
