@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import styles from './UserDetail.module.scss'
 
 export default function UserDetail({ user }) {
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, myBalance } = useContext(AuthContext);
 
   return (
     <section className={styles.container}>
@@ -23,6 +23,7 @@ export default function UserDetail({ user }) {
             <div className={styles.textBox}>
               <span className={styles.userName}>{user.username}</span>
               <span className={styles.userAddress}>{user.walletAddress}</span>
+              <span className={styles.userAddress}>{user === currentUser ? myBalance : null}</span>
             </div>
             {
               user !== currentUser ?
