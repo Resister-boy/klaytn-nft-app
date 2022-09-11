@@ -56,6 +56,17 @@ export default function NftButton({ user, post, type }) {
           Buy
         </button>
       );
+    } else if (type === "burn") {
+      button = (
+        <button
+          className={styles.modalButton}
+          onClick={() => {
+            showBurnModal();
+          }}
+        >
+          Burn
+        </button>
+      )
     }
   };
 
@@ -218,7 +229,7 @@ export default function NftButton({ user, post, type }) {
               if (res.data.result) {
                 console.log(`[result] ${JSON.stringify(res.data.result)}`);
                 clearInterval(timeId);
-                alert("Now token is On Market");
+                alert("You Bought NFT Post. It's all yours now");
                 axios
                   .put("/posts/" + post._id, {
                     userId: currentUser._id,
@@ -240,6 +251,51 @@ export default function NftButton({ user, post, type }) {
       console.log(err.response.data);
     }
   };
+
+  const burnPost = () => {
+    let request_key = null;
+    const cardInfo = {
+      isMobile: false,
+      walletAddress: currentUser.walletAddress,
+      tokenId: post.tokenId,
+    };
+    console.log(cardInfo);
+    try {
+      axios.put("/klaytn/burnTokenURL", cardInfo).then((res) => {
+        const qvalue = res.data.url + res.data.request_key;
+        // console.log(qvalue);
+        setQrvalue(qvalue);
+        request_key = res.data.request_key;
+        let timeId = setInterval(() => {
+          axios
+            .get(
+              `https://a2a-api.klipwallet.com/v2/a2a/result?request_key=${request_key}`
+            )
+            .then((res) => {
+              if (res.data.result) {
+                console.log(`[result] ${JSON.stringify(res.data.result)}`);
+                clearInterval(timeId);
+                alert("You burn the NFT Post");
+                axios
+                  .delete("/posts/" + post._id, {
+                    userId: currentUser._id,
+                  })
+                  .catch(function (error) {
+                    if (error.response) {
+                      alert(error.response.data);
+                      return;
+                    }
+                  });
+                setShowModal(false);
+                // navigate("/mypage/" + Address);
+              }
+            });
+        }, 1000);
+      });
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  }
 
   const showMintModal = () => {
     // set mint modal
@@ -287,6 +343,21 @@ export default function NftButton({ user, post, type }) {
     // show modal
     setShowModal(true);
   };
+
+  const showBurnModal = () => {
+    setModalPrefference({
+      title: "Sale",
+      kasButton: "",
+      klipButton: "Use Klip",
+      confirmButton: "",
+      onClickKas: () => {},
+      onClickKlip: () => {
+        burnPost();
+      },
+    });
+    // show modal
+    setShowModal(true);
+  }
 
   if (user.walletAddress !== currentUser.walletAddress) return null;
   return (
