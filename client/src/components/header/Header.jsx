@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import LoginButton from '../loginButton/LoginButton'
+import UserButton from '../userButton/UserButton'
 import Logo from '../logo/Logo'
 import { Link } from 'react-router-dom'
 import styles from './Header.module.scss'
@@ -23,7 +24,7 @@ function Header() {
           </nav>
           <div className={styles.walletContainer}>
             {user
-              ? <span className={styles.connected}>{user.username}</span>
+              ? <UserButton />
               : <LoginButton className={styles.modalButton} />
             }
           </div>

@@ -3,10 +3,11 @@
   margin: 60px auto;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 
   .imageContainer {
     .imageContent {
-      border-radius: 20px;
+      width: 300px;
     }
   }
 
