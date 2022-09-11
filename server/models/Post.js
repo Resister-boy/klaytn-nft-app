@@ -26,6 +26,9 @@ const PostSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		tokenId: {
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );

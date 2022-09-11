@@ -60,7 +60,8 @@ export default function PostDetail() {
               <div>isNFT? {post.isNFT ? "true" : "false"}</div>
             </div>
             <div className=''>
-              <NftButton post={post} user={user} />
+            {post.isNFT ? <NftButton post={post} user={user} type="market"/> : <NftButton post={post} user={user} type="mint"/>}
+              
             </div>
           </div>
         </div>

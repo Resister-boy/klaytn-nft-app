@@ -7,7 +7,7 @@ import { ModalContext } from "../../context/ModalContext";
 import QrModal from "../qrModal/QrModal";
 import styles from "./NftButton.module.scss";
 
-export default function NftButton({ user, post }) {
+export default function NftButton({ user, post, type }) {
   // User
   const { user: currentUser, setMyBalance } = useContext(AuthContext);
   // Modal
@@ -18,6 +18,14 @@ export default function NftButton({ user, post }) {
     setQrvalue,
     DEFAULT_ADDRESS,
   } = useContext(ModalContext);
+
+  const checkType = (type) => {
+    if (type === "mint") {
+      return true;
+    } else if (type === "market") {
+      return false;
+    }
+  };
 
   const getRandomArbitrary = (min, max) => {
     min = Math.ceil(min);
@@ -36,15 +44,23 @@ export default function NftButton({ user, post }) {
     }
     // mint token
     // token id random generator
-    const mintTokenID = getRandomArbitrary(parseInt(currentUser.tokenIdHead), parseInt(currentUser.tokenIdTail));
+    const mintTokenID = getRandomArbitrary(
+      parseInt(currentUser.tokenIdHead),
+      parseInt(currentUser.tokenIdTail)
+    );
 
-    const uriJson = { toAddress: currentUser.walletAddress, tokenId: mintTokenID, uri: "/posts/" + post._id, isMobile: false };
+    const uriJson = {
+      toAddress: currentUser.walletAddress,
+      tokenId: mintTokenID,
+      uri: "/posts/" + post._id,
+      isMobile: false,
+    };
     const uri = "/posts/" + post._id;
     // const mintTokenID = Math.floor(Math.random() * 99) + 1016500;
 
     let request_key = null;
     axios.put("/klaytn/mintPostURL", uriJson).then((res) => {
-      console.log(currentUser)
+      console.log(currentUser);
       setQrvalue(res.data.url + res.data.request_key);
       request_key = res.data.request_key;
       let timeId = setInterval(() => {
@@ -59,7 +75,7 @@ export default function NftButton({ user, post }) {
               setQrvalue("DEFAULT");
               alert("Mint Successful");
               axios
-                .put(uri, { userId: currentUser._id, isNFT: true })
+                .put(uri, { userId: currentUser._id, isNFT: true, tokenId: mintTokenID })
                 .catch(function (error) {
                   if (error.response) {
                     alert(error.response.data);
@@ -98,6 +114,41 @@ export default function NftButton({ user, post }) {
     // );
   };
 
+  const salePost = () => {
+    let request_key = null;
+    const cardInfo = {
+      isMobile: false,
+      fromAddress: currentUser.walletAddress,
+      tokenId: post.tokenId,
+    };
+    console.log(cardInfo)
+    try {
+      axios.put("/klaytn/saleTokenURL", cardInfo).then((res) => {
+        const qvalue = res.data.url + res.data.request_key;
+        // console.log(qvalue);
+        setQrvalue(qvalue);
+        request_key = res.data.request_key;
+        let timeId = setInterval(() => {
+          axios
+            .get(
+              `https://a2a-api.klipwallet.com/v2/a2a/result?request_key=${request_key}`
+            )
+            .then((res) => {
+              if (res.data.result) {
+                console.log(`[result] ${JSON.stringify(res.data.result)}`);
+                clearInterval(timeId);
+                alert("Now token is On Market");
+                setShowModal(false);
+                // navigate("/mypage/" + Address);
+              }
+            });
+        }, 1000);
+      });
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
   const showMintModal = () => {
     // set mint modal
     setModalPrefference({
@@ -114,17 +165,45 @@ export default function NftButton({ user, post }) {
     setShowModal(true);
   };
 
+  const showMarketModal = () => {
+    //set market modal
+    setModalPrefference({
+      title: "Sale",
+      kasButton: "",
+      klipButton: "Use Klip",
+      confirmButton: "",
+      onClickKas: () => {},
+      onClickKlip: () => {
+        salePost();
+      },
+    });
+    // show modal
+    setShowModal(true);
+  };
+
   if (user.walletAddress !== currentUser.walletAddress) return null;
   return (
     <div className={styles.container}>
-      <button
-        className={styles.modalButton}
-        onClick={() => {
-          showMintModal();
-        }}
-      >
-        Mint
-      </button>
+      {checkType(type) ? (
+        <button
+          className={styles.modalButton}
+          onClick={() => {
+            showMintModal();
+          }}
+        >
+          Mint
+        </button>
+      ) : (
+        <button
+          className={styles.modalButton}
+          onClick={() => {
+            showMarketModal();
+          }}
+        >
+          Sale
+        </button>
+      )}
+
       <QrModal />
     </div>
   );
