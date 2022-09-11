@@ -35,6 +35,8 @@
 
     .uniqueContainer {
       margin-top: 20px;
+      display: flex;
+      flex-direction: column;
 
       .contentContainer {
         width: 90%;
@@ -47,16 +49,22 @@
         border-radius: 15px;
       }
 
-      .ownerName {
-        color: #292929;
-        font-size: 18px;
-        margin-right: 10px;
+      .descriptContainer {
+        padding: 10px;
+
+        .ownerName {
+          color: #292929;
+          font-size: 18px;
+          margin-right: 10px;
+        }
+
+        .ownerAddress {
+          color: #ccc;
+          font-size: 14px;
+        }
       }
 
-      .ownerAddress {
-        color: #ccc;
-        font-size: 14px;
-      }
+
     }
   }
 }

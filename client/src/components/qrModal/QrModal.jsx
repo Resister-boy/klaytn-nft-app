@@ -3,7 +3,7 @@ import QRCode from "qrcode.react";
 import { Container, Form, Modal } from "react-bootstrap";
 import { ModalContext } from "../../context/ModalContext";
 import ModalButton from "../modalButton/ModalButton";
-import styles from './QrModal.module.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function QrModal() {
   // Modal
@@ -12,40 +12,43 @@ export default function QrModal() {
   return (
     <Modal
       show={showModal}
-      onHide={() => {setShowModal(false)}}
-      className={styles.container}
+      onHide={() => { setShowModal(false) }}
+      size="sm"
+      centered
     >
-      <Modal.Header className={styles.titleContainer}>
-        <Modal.Title className={styles.title}>{modalPrefference.title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className={styles.bodyContainer}>
-        <Container className={styles.qrContainer}>
-          <div style={{backgroundColor: "white", width: "160", height: "160", padding: 5}}>
-          <QRCode value={qrvalue} size={150} style={{ margin: "auto", backgroundColor: "white"}} />
-          </div>
-        </Container>
-        {modalPrefference.title === "Register" ?
-          <Form className={styles.inputContainer}>
-            <Form.Group>
-              <Form.Label className={styles.inputTitle}>
-                User name
-              </Form.Label>
-              <Form.Control
-                type="name"
-                className={styles.inputItem}
-                autoFocus
-                ref={modalInputRef}
-              />
-            </Form.Group>
-          </Form> : null
-        }
-      </Modal.Body>
-      <Modal.Footer className={styles.footerContainer}>
-        <ModalButton buttonName={modalPrefference.kasButton} onClickFunction={modalPrefference.onClickKas} color="#278ef5" />
-        <ModalButton buttonName={modalPrefference.klipButton} onClickFunction={modalPrefference.onClickKlip} color="#278ef5" />
-        <ModalButton buttonName={modalPrefference.confirmButton} onClickFunction={modalPrefference.onConfirm} color="#278ef5" />
-        <ModalButton buttonName="close" onClickFunction={() => { setShowModal(false) }} color="#494d52" />
-      </Modal.Footer>
+      <div style={{ backgroundColor: "black", border: "1px solid #00ffff", color: "white", borderRadius: "5px" }}>
+        <Modal.Header style={{ display: "flex", justifyContent: "center", border: "none" }}>
+          <Modal.Title>{modalPrefference.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ display: "flex", justifyContent: "center", border: "none" }}>
+          <Container style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ backgroundColor: "white", width: "160", height: "160", padding: 5 }}>
+              <QRCode value={qrvalue} size={150} style={{ margin: "auto", backgroundColor: "white" }} />
+            </div>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer style={{ display: "flex", justifyContent: "center", alignItems: "center", border: "none" }}>
+          {modalPrefference.title === "Register" ?
+            <Form>
+              <Form.Group>
+                <Form.Label>
+                  User name
+                </Form.Label>
+                <Form.Control
+                  type="name"
+                  autoFocus
+                  ref={modalInputRef}
+                  style={{border: "none", height: "25px"}}
+                />
+              </Form.Group>
+            </Form> : null
+          }
+          <ModalButton buttonName={modalPrefference.kasButton} onClickFunction={modalPrefference.onClickKas} />
+          <ModalButton buttonName={modalPrefference.klipButton} onClickFunction={modalPrefference.onClickKlip} />
+          <ModalButton buttonName={modalPrefference.confirmButton} onClickFunction={modalPrefference.onConfirm} />
+          <ModalButton buttonName="close" onClickFunction={() => { setShowModal(false) }} />
+        </Modal.Footer>
+      </div>
     </Modal>
   );
 }

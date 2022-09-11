@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import styles from './PostDetail.module.scss';
 import dateFormat, { masks } from "dateformat";
 import { AuthContext } from '../../context/AuthContext';
+import { ModalContextProvider } from '../../context/ModalContext';
+import NftButton from '../nftButton/NftButton';
 
 
 export default function PostDetail() {
@@ -31,31 +33,38 @@ export default function PostDetail() {
   }, []);
 
   return (
-    <section className={styles.container}>
-      <div className={styles.imageContainer}>
-        {
-          post?.image ?
-            <img
-              src={post.image}
-              alt="content"
-              className={styles.imageContent}
-            />
-            : null
-        }
-      </div>
-      <div className={styles.textContainer}>
-        <div className={styles.basicContainer}>
-          <span className={styles.contentTitle}>{post.title}</span>
-          <div className={styles.contentAddress}>0x01234567</div>
-          <div className={styles.contentDate}>{dateFormat(post.createdAt, "yyyy-mm-dd HH:MM:ss")}</div>
+    <ModalContextProvider>
+      <section className={styles.container}>
+        <div className={styles.imageContainer}>
+          {
+            post?.image ?
+              <img
+                src={post.image}
+                alt="content"
+                className={styles.imageContent}
+              />
+              : null
+          }
         </div>
-        <div className={styles.uniqueContainer}>
-          <div className={styles.contentContainer}>{post.content}</div>
-          <span className={styles.ownerName}>{user ? user.username : "undefined"}</span>
-          <span className={styles.ownerAddress}>{user ? user.walletAddress : "undefined"}</span>
-          <div>isNFT? {post.isNFT ? "true" : "false"}</div>
+        <div className={styles.textContainer}>
+          <div className={styles.basicContainer}>
+            <span className={styles.contentTitle}>{post.title}</span>
+            <div className={styles.contentAddress}>0x01234567</div>
+            <div className={styles.contentDate}>{dateFormat(post.createdAt, "yyyy-mm-dd HH:MM:ss")}</div>
+          </div>
+          <div className={styles.uniqueContainer}>
+            <div className={styles.contentContainer}>{post.content}</div>
+            <div className={styles.descriptContainer}>
+              <div className={styles.ownerName}>by {user ? user.username : "undefined"}</div>
+              <div className={styles.ownerAddress}>{user ? user.walletAddress : "undefined"}</div>
+              <div>isNFT? {post.isNFT ? "true" : "false"}</div>
+            </div>
+            <div className=''>
+              <NftButton post={post} user={user} />
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ModalContextProvider>
   )
 }
