@@ -15,6 +15,8 @@ export default function MyProfile() {
   const [myNFTs, setMyNFTs] = useState([]);
   // User
   const { user } = useContext(AuthContext);
+  // Tab
+  const [tab, setTab] = useState("My Posts");
 
   useEffect(() => {
     // fetch DB posts
@@ -36,7 +38,17 @@ export default function MyProfile() {
         return;
       }
       const _nfts = await CaverAPI.fetchCardOf(user.walletAddress);
-      setMyNFTs(_nfts);
+      let _nftPosts = [];
+      for (let i = 0; i < _nfts.length; i++) {
+        const response = await axios.get(_nfts[i].uri)
+          .catch(function (error) {
+          })
+        if (response && response.data) {
+          _nftPosts.push(response.data);
+        }
+      }
+      setMyNFTs(_nftPosts);
+      console.log(_nftPosts);
     }
 
     fetchMyPosts();
@@ -52,14 +64,30 @@ export default function MyProfile() {
       <div className="userProfile">
         <UserDetail user={user} />
       </div>
-      <div className={styles.postContainer}>
-        {myPosts.map((p) => (
-          <Post key={p._id} index={idx++} post={p} />
-        ))}
+      <div className={styles.tabContainer}>
+        <button className={styles.tabButton} onClick={() => { setTab("My Posts") }}> My Posts </button>
+        <button className={styles.tabButton} onClick={() => { setTab("My NFTs") }}> My NFTs </button>
       </div>
-      <div className="NFTposts">
-        
-      </div>
+      {
+        // (
+        //   <Post key={p._id} index={idx++} post={p} />
+        // )
+        tab === "My Posts" ?
+          <div className={styles.postContainer}>
+            {myPosts.map((p) => {
+              if (p.isNFT === false)
+                return (<Post key={p._id} index={idx++} post={p} />);
+            })}
+          </div> : null
+      }
+      {
+        tab === "My NFTs" ?
+          <div className={styles.postContainer}>
+            {myNFTs.map((p) => (
+              <Post key={p._id} index={idx++} post={p} />
+            ))}
+          </div> : null
+      }
     </div>
   );
 }
