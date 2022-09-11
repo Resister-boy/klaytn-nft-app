@@ -63,7 +63,7 @@ export default function LoginButton() {
             // if api call fails, return immediately
             if (!response)
               return;
-            // alert("Welcome back " + response.data.username + "!");
+            alert("Welcome back " + response.data.username + "!");
             // set user info		
             setMyAddress(address);
             const _balance = await CaverAPI.getBalance(address);
@@ -83,6 +83,7 @@ export default function LoginButton() {
       // if api call fails, return immediately
       if (!response)
         return;
+      alert("Welcome back " + response.data.username + "!");
       // set user info		
       setMyAddress(address);
       const _balance = await CaverAPI.getBalance(address);

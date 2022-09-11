@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import styles from "./ModalButton.module.scss";
 
 export default function ModalButton({ buttonName, onClickFunction }) {
@@ -7,7 +6,7 @@ export default function ModalButton({ buttonName, onClickFunction }) {
     return (null);
   return (
     <div className={styles.container}>
-      <Button
+      <button
         variant="primary"
         className={styles.modalButton}
         onClick={() => {
@@ -15,7 +14,7 @@ export default function ModalButton({ buttonName, onClickFunction }) {
         }}
       >
         {buttonName}
-      </Button>
+      </button>
     </div>
   );
 }
