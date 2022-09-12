@@ -231,7 +231,7 @@ export default function NftButton({ user, post, type }) {
                 clearInterval(timeId);
                 alert("You Bought NFT Post. It's all yours now");
                 axios
-                  .put("/posts/" + post._id, {
+                  .put("/posts/modifiyOwner/" + post._id, {
                     userId: currentUser._id,
                     isOnSale: false,
                   })
@@ -331,7 +331,7 @@ export default function NftButton({ user, post, type }) {
 
   const showBuyModal = () => {
     setModalPrefference({
-      title: "Sale",
+      title: "Buy",
       kasButton: "",
       klipButton: "Use Klip",
       confirmButton: "",
@@ -346,7 +346,7 @@ export default function NftButton({ user, post, type }) {
 
   const showBurnModal = () => {
     setModalPrefference({
-      title: "Sale",
+      title: "Burn",
       kasButton: "",
       klipButton: "Use Klip",
       confirmButton: "",
@@ -359,7 +359,6 @@ export default function NftButton({ user, post, type }) {
     setShowModal(true);
   }
 
-  if (user.walletAddress !== currentUser.walletAddress) return null;
   return (
     <div className={styles.container}>
       {checkType(type)}

@@ -7,12 +7,13 @@ import dateFormat, { masks } from "dateformat";
 import { AuthContext } from "../../context/AuthContext";
 import { ModalContextProvider } from "../../context/ModalContext";
 import NftButton from "../nftButton/NftButton";
+import { useContext } from "react";
 
 export default function PostDetail() {
   const { id } = useParams();
   const [post, setPost] = useState("");
   const [user, setUser] = useState("");
-  // const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -29,13 +30,15 @@ export default function PostDetail() {
     fetchPost();
   }, []);
 
-  let button1;
+  let button1 = null;
   let button2 = null;
   const checkButton = () => {
     if (!post.isNFT) {
+      if (user.walletAddress !== currentUser.walletAddress) return null;
       button1 = <NftButton post={post} user={user} type="mint" />;
     } else {
       if (!post.isOnSale) {
+        if (user.walletAddress !== currentUser.walletAddress) return null;
         button1 = (<NftButton post={post} user={user} type="market" />);
         button2 = (<NftButton post={post} user={user} type="burn" />)
       } else {
@@ -59,7 +62,6 @@ export default function PostDetail() {
         <div className={styles.textContainer}>
           <div className={styles.basicContainer}>
             <span className={styles.contentTitle}>{post.title}</span>
-            <div className={styles.contentAddress}>0x01234567</div>
             <div className={styles.contentDate}>
               {dateFormat(post.createdAt, "yyyy-mm-dd HH:MM:ss")}
             </div>
@@ -68,7 +70,7 @@ export default function PostDetail() {
             <div className={styles.contentContainer}>{post.content}</div>
             <div className={styles.descriptContainer}>
               <div className={styles.ownerName}>
-                by {user ? user.username : "undefined"}
+                owned by {user ? user.username : "undefined"}
               </div>
               <div className={styles.ownerAddress}>
                 {user ? user.walletAddress : "undefined"}

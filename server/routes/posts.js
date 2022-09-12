@@ -35,6 +35,25 @@ router.put("/:id", async (req, res) => {
 	}
 });
 
+// update owner's id
+router.put("/modifiyOwner/:id", async (req, res) => {
+	try {
+		//requset parameter에 있는 _id 가지고 post find
+		const post = await Post.findById(req.params.id);
+		if (post.isOnSale && post.isNFT) {
+			//update 하려는 post의 작성자인 userId가 requset body userId와 같을 때
+			//requset body 가지고 post update
+			await post.updateOne({ $set: req.body });
+			//성공시 status:200
+			res.status(200).json("The post has been updated");
+		} else {
+			//userId가 다를 시 status:403
+			res.status(403).json("You can update only your post");
+		}
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
 //delete a post
 router.delete("/:id", async (req, res) => {
 	try {

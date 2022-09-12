@@ -7,6 +7,7 @@ import './App.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import PostDetail from './components/postDetail/PostDetail';
+import Posting from './pages/posting/Posting';
 import { AuthContext } from './context/AuthContext';
 import { useContext } from 'react';
 
@@ -27,8 +28,8 @@ function App() {
         <Route path="/posts/:id" element={ <PostDetail /> } />
         <Route path="/myprofile" element={user ? <UserPage /> : <Navigate to="/" />} />
         <Route path="/market" element={user ? <Market /> : <Navigate to="/" />} />
+        <Route path="/posting" element={user ? <Posting /> : <Navigate to="/" />} />
         <Route path="*" element={ <NotFound /> } />
-        {/* <Route path="/upload:id" element={user ? <UserPage /> : <Navigate to="/" />} /> */}
       </Routes>
       <Footer />
     </BrowserRouter>

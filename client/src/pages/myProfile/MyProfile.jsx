@@ -96,7 +96,6 @@ export default function MyProfile() {
           <div className={styles.postContainer}>
             {myPosts.map((p) => {
               if (p.isNFT === false)
-                // console.log(p)
                 return (<Post key={p._id} index={idx++} post={p} />);
             })}
           </div> : null

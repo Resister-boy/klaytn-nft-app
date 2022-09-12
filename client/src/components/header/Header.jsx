@@ -21,6 +21,9 @@ function Header() {
             <Link to="/market">
               <span className={styles.navItem}>Market</span>
             </Link>
+            <Link to="/posting">
+              <span className={styles.navItem}>Posting</span>
+            </Link>
           </nav>
           <div className={styles.walletContainer}>
             {user
