@@ -1,0 +1,107 @@
+.container {
+  width: 70%;
+  margin: 60px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  .imageContainer {
+    .imageContent {
+      width: 300px;
+    }
+  }
+
+  .textContainer {
+    width: 50%;
+
+    .basicContainer {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      margin: 30px auto;
+
+      .contentTitle {
+        border-radius: 15px;
+        color: #292929;
+        font-size: 23px;
+        border: solid 1px black;
+      }
+
+      .contentAddress {
+        color: #ccc;
+        font-size: 15px;
+      }
+
+      .contentDate {
+        margin: 15px auto;
+        text-align: right;
+      }
+    }
+
+    .uniqueContainer {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .contentContainer {
+        width: 90%;
+        height: 250px;
+        margin: 30px auto;
+        background-color: #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+      }
+
+      .contentContainerSub {
+        border: none;
+        width: 90%;
+        height: 250px;
+        margin: 30px auto;
+        background-color: #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+      }
+
+      .descriptContainer {
+        padding: 10px;
+
+        .ownerName {
+          color: #292929;
+          font-size: 18px;
+          margin-right: 10px;
+        }
+
+        .ownerAddress {
+          color: #ccc;
+          font-size: 14px;
+        }
+
+        .modalButton {
+          margin: 0 auto;
+          width: 70%;
+          height: 30px;
+          text-align: center;
+          border: 1px solid #00ffff;
+          color: #00ffff;
+          border-radius: 15px;
+          background-color: transparent;
+          transition: all .3s;
+          margin-top: 15px;
+      
+          &:hover {
+            cursor: pointer;
+            background-color: #00ffff;
+            color: #fff;
+          }
+        }
+      }
+
+
+    }
+  }
+  
+}
